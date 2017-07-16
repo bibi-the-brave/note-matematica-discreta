@@ -1,0 +1,584 @@
+\documentclass[a4paper, openany]{book}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{concrete}
+\usepackage{beton}
+%\usepackage{concmath}
+%\usepackage{ccfonts}
+\renewcommand{\bfdefault}{sbc} 
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{euler}		%font 'ams euler', lo stesso di 'Concrete Mathematics' di Knuth
+\usepackage{amsthm}
+\usepackage{mathtools}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{graphs}
+\usetikzlibrary{arrows}
+
+\theoremstyle{plain} 
+\newtheorem{thm}{Teorema}[section] 
+\newtheorem{cor}[thm]{Corollario} 
+\newtheorem{lem}[thm]{Lemma} 
+\newtheorem{prop}[thm]{Proposizione} 
+
+\theoremstyle{definition} 
+\newtheorem{defn}{Definizione}[chapter] 
+%\theoremstyle{remarks} 
+\newtheorem{ese}{Esempio}[section]
+\newtheorem{oss}{Osservazione}[section]
+\newtheorem{eser}{Esercizio}[section]
+
+\pagestyle{headings}
+
+%\newcommand*{\QEDA}{\hfill\ensuremath{\blacksquare}}%
+%\newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
+
+%inizio del documento
+\begin{document}
+
+\title{Matematica Discreta\\Laurea in Informatica}
+\author{Andrea Favero}
+\date{Luglio 2016}
+\maketitle
+%fine copertina
+
+%indice analitico
+\tableofcontents
+
+
+%primo capitolo
+\chapter{Grafi}
+
+\section{Grafi non orientati}
+
+\begin{defn}[grafo non orientato semplice]	
+Un \emph{grafo non orientato semplice} $G$ è una coppia ordinata $(V,E)$ dove: $V=\{v_1,\dots,v_n\}$ è
+un insieme finito di \emph{vertici} (o \emph{nodi}) ed $E$ è un insieme di coppie
+\emph{non ordinate} di vertici 
+(\emph{spigoli}\footnote{Il nome dell'insieme è E perchè in inglese gli spigoli 
+sono chiamati \emph{edges}}).
+\end{defn}
+
+\begin{ese}
+\[V = \{ v_1, \dots, v_8 \}\]
+\[ E = \{ (v_1,v_3), (v_1,v_7), (v_2,v_3), (v_4,v_7), (v_6,v_5), (v_4,v_2), (v_3,v_5), (v_5,v_7) \}\]
+\end{ese}
+
+\begin{figure}[!h]
+    \centering
+    \begin{tikzpicture}
+        \node[shape=circle,draw=black] (A) at (0,6) {$v_1$};
+        \node[shape=circle,draw=black] (B) at (0,3) {$v_2$};
+        \node[shape=circle,draw=black] (C) at (1,4) {$v_3$};
+        \node[shape=circle,draw=black] (D) at (2.5,1) {$v_4$};
+        \node[shape=circle,draw=black] (E) at (2.5,5) {$v_5$};
+        \node[shape=circle,draw=black] (F) at (2,3) {$v_6$};
+        \node[shape=circle,draw=black] (G) at (5,6) {$v_7$};
+        \node[shape=circle,draw=black] (H) at (5,1) {$v_8$};
+
+        %\path [->] (A) edge node[left] {$5$} (B);
+        \path (A) edge (C);
+        \path (A) edge (G);
+        \path (B) edge (C);
+        \path (D) edge (G);
+        \path (F) edge (E);
+        \path (D) edge (B);
+        \path (C) edge (E);
+        \path (E) edge (G);
+    \end{tikzpicture}
+\end{figure}
+
+
+Il grafo è detto \emph{semplice} perché non può avere né cappi né spigoli paralleli.\\
+Lo spigolo $(v_1,v_3)$ ha come \emph{estremi} i vertici $v_1$ e $v_3$.
+
+\begin{ese}
+    \begin{figure}[!h]
+        \centering
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
+            \node[shape=circle,draw=black] (B) at (4,0) {$v_2$};
+
+            \path (A) edge [loop] node {} (A);
+            \path (A) edge [bend right=20] (B);
+            \path (B) edge [bend right=20] (A);
+        \end{tikzpicture}
+    \end{figure}
+Il grafo non orientato nella figura precedente non è semplice poiché presenta un
+cappio sul vertice $v_1$ e ci sono due spigoli paralleli tra i vertici $v_1$ e $v_2$.
+\end{ese}
+
+\begin{defn}
+Uno spigolo è detto \emph{incidente} nei suoi estremi ed i suoi vertici sono detti \emph{adiacenti}.
+\end{defn}
+
+\begin{defn}[cammino]
+Un \emph{cammino} è una sequenza di vertici \emph{distinti} dove ogni coppia di vertici consecutivi
+è uno spigolo.
+\end{defn}
+
+\begin{ese}
+$v_4 \text{ - } v_7 \text{ - } v_5 \text{ - } v_3 \text{ - } v_2 $ è un cammino. Un'altra notazione
+per indicare il cammino è: $(v_4, v_7, v_5, v_3, v_2)$.
+    \begin{figure}[!h]
+        \centering
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0,6) {$v_1$};
+            \node[shape=circle,draw=orange] (B) at (0,3) {$v_2$};
+            \node[shape=circle,draw=orange] (C) at (1,4) {$v_3$};
+            \node[shape=circle,draw=orange] (D) at (2.5,1) {$v_4$};
+            \node[shape=circle,draw=orange] (E) at (2.5,5) {$v_5$};
+            \node[shape=circle,draw=black] (F) at (2,3) {$v_6$};
+            \node[shape=circle,draw=orange] (G) at (5,6) {$v_7$};
+            \node[shape=circle,draw=black] (H) at (5,1) {$v_8$};
+
+            %\path [->] (A) edge node[left] {$5$} (B);
+            \path (A) edge (C);
+            \path (A) edge (G);
+            \path[draw=orange,line width=0.1em] (B) edge (C);
+            \path[draw=orange,line width=0.1em] (D) edge (G);
+            \path (F) edge (E);
+            \path (D) edge (B);
+            \path[draw=orange,line width=0.1em] (C) edge (E);
+            \path[draw=orange,line width=0.1em] (E) edge (G);
+        \end{tikzpicture}
+    \end{figure}
+\end{ese}
+
+
+\begin{defn}[circuito]
+Cammino nel quale il primo e l'ultimo vertice sono adiacenti.
+\end{defn}
+\begin{ese}
+$v_4 \text{ - } v_7 \text{ - } v_5 \text{ - } v_3 \text{ - } v_2 \text{ - } v_4$ è un circuito.
+    \begin{figure}[!h]
+    \centering
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black]  (A) at (0,6) {$v_1$};
+            \node[shape=circle,draw=orange] (B) at (0,3) {$v_2$};
+            \node[shape=circle,draw=orange] (C) at (1,4) {$v_3$};
+            \node[shape=circle,draw=orange] (D) at (2.5,1) {$v_4$};
+            \node[shape=circle,draw=orange] (E) at (2.5,5) {$v_5$};
+            \node[shape=circle,draw=black]  (F) at (2,3) {$v_6$};
+            \node[shape=circle,draw=orange] (G) at (5,6) {$v_7$};
+            \node[shape=circle,draw=black]  (H) at (5,1) {$v_8$};
+
+            %\path [->] (A) edge node[left] {$5$} (B);
+            \path (A) edge (C);
+            \path (A) edge (G);
+            \path[draw=orange,line width=0.1em] (B) edge (C);
+            \path[draw=orange,line width=0.1em] (D) edge (G);
+            \path (F) edge (E);
+            \path[draw=orange,line width=0.1em] (D) edge (B);
+            \path[draw=orange,line width=0.1em] (C) edge (E);
+            \path[draw=orange,line width=0.1em] (E) edge (G);
+        \end{tikzpicture}
+    \end{figure}
+\end{ese}
+
+\begin{defn}[grafo connesso]
+Un grafo si dice \emph{connesso} se per ogni coppia di vertici esiste un cammino
+che li collega.
+\end{defn}
+
+\begin{defn}[grafo completo]
+Un grafo è \emph{completo} se per ogni coppia di vertici esiste uno spigolo che li collega.
+\end{defn}
+\begin{ese}
+    3 grafi completi:
+    \marginpar{
+        Nell'ordine:
+        \begin{itemize}
+            \item un grafo $k_3$
+            \item un grafo $k_4$
+            \item un grafo $k_5$
+        \end{itemize}
+    }
+    \begin{figure}[!h]
+    \centering
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
+            \node[shape=circle,draw=black] (B) at (3,0) {$v_2$};
+            \node[shape=circle,draw=black] (C) at (3,3) {$v_3$};
+
+            \path (A) edge node {} (B);
+            \path (A) edge node {} (C);
+            \path (B) edge node {} (C);
+        \end{tikzpicture}
+        \hspace{1cm}
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
+            \node[shape=circle,draw=black] (B) at (3,0) {$v_2$};
+            \node[shape=circle,draw=black] (C) at (3,3) {$v_3$};
+            \node[shape=circle,draw=black] (D) at (0,3) {$v_4$};
+
+            \path (A) edge node {} (B);
+            \path (A) edge node {} (C);
+            \path (B) edge node {} (C);
+            \path (A) edge node {} (D);
+            \path (C) edge node {} (D);
+            \path (B) edge node {} (D);
+
+        \end{tikzpicture}
+        \hspace{1cm}
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0,1.75) {$v_1$};
+            \node[shape=circle,draw=black] (B) at (0.75,0) {$v_2$};
+            \node[shape=circle,draw=black] (C) at (2.25,0) {$v_3$};
+            \node[shape=circle,draw=black] (D) at (3,1.75) {$v_4$};
+            \node[shape=circle,draw=black] (E) at (1.5,3) {$v_5$};
+
+            \path (A) edge node {} (B);
+            \path (A) edge node {} (C);
+            \path (A) edge node {} (D);
+            \path (A) edge node {} (E);
+            \path (B) edge node {} (C);
+            \path (B) edge node {} (D);
+            \path (B) edge node {} (E);
+            \path (C) edge node {} (D);
+            \path (C) edge node {} (E);
+            \path (D) edge node {} (E);
+        \end{tikzpicture}
+    \end{figure}
+\end{ese}
+
+\begin{defn}[grafo bipartito]
+Un grafo è \emph{bipartito}\footnote{I grafi bipartiti saranno discussi in seguito}
+se i suoi vertici sono partizionati in due sottoinsiemi, $U$ e $V$,
+e ogni spigolo è incidente in un vertice di $U$ e uno di $V$.
+\end{defn}
+
+\begin{ese}
+Due grafi bipartiti.
+    \begin{figure}[!h]
+    \centering
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0,3) {$u_1$};
+            \node[shape=circle,draw=black] (B) at (3,3) {$w_1$};
+            \node[shape=circle,draw=black] (C) at (0,1.5) {$u_2$};
+            \node[shape=circle,draw=black] (D) at (3,1.5) {$w_2$};
+            \node[shape=circle,draw=black] (E) at (0,0) {$u_3$};
+            \node[shape=circle,draw=black] (F) at (3,0) {$w_3$};
+
+            \path (A) edge node {} (B);
+            \path (A) edge node {} (F);
+            \path (B) edge node {} (C);
+            \path (C) edge node {} (D);
+            \path (D) edge node {} (E);
+
+        \end{tikzpicture}
+        \hspace{1cm}
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (1.5, 3) {$u_1$};
+            \node[shape=circle,draw=black] (B) at (3, 2.25) {$w_1$};
+            \node[shape=circle,draw=black] (C) at (3, 0.75) {$u_2$};
+            \node[shape=circle,draw=black] (D) at (0, 2.25) {$w_2$};
+            \node[shape=circle,draw=black] (E) at (0, 0.75) {$u_3$};
+            \node[shape=circle,draw=black] (F) at (1.5, 0) {$w_3$};
+
+            \path (A) edge node {} (D);
+            \path (A) edge node {} (B);
+            \path (B) edge node {} (C);
+            \path (F) edge node {} (E);
+            \path (F) edge node {} (C);
+            \path (B) edge node {} (C);
+            \path (D) edge node {} (E);
+        \end{tikzpicture}
+    \end{figure}
+\end{ese}
+
+
+\section{Grafi orientati}
+\begin{defn}[grafo orientato semplice]
+Un \emph{grafo orientato semplice} $G$ è una coppia ordinata $(V, A)$ dove:
+$V = \{ v_1, \dots, v_n \}$ è un insieme finito di vertici (o nodi) ed
+$A$ è un insieme di \emph{coppie ordinate} di vertici dette \emph{archi}.
+\end{defn}
+
+\begin{ese}
+\[G(V,A) \text{ con } V = \{ v_1, v_2, v_3, v_4, v_5 \} \text{ e} \]
+\[A = \{ (v_1, v_2), (v_1, v_3), (v_2, v_5), (v_3, v_5), (v_4, v_1), (v_4, v_3), (v_5, v_2) \} \]
+    \begin{figure}[!h]
+    \centering
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
+            \node[shape=circle,draw=black] (B) at (4,0) {$v_2$};
+            \node[shape=circle,draw=black] (C) at (4,4) {$v_3$};
+            \node[shape=circle,draw=black] (D) at (1,3) {$v_4$};
+            \node[shape=circle,draw=black] (E) at (2.5,1.5) {$v_5$};
+
+            \path [->] (A) edge node[left] {} (B);
+            \path [->] (A) edge node[left] {} (C);
+            \path [->] (B) edge node[left] {} (E);
+            \path [->] (C) edge node[left] {} (E);
+            \path [->] (D) edge node[left] {} (A);
+            \path [->] (D) edge node[left] {} (C);
+            \path [->] (E) edge [out=35,in=-2] node[left] {} (B);
+        \end{tikzpicture}
+    \end{figure}
+\end{ese}
+Il grafo è semplice perché non ha né cappi né archi paralleli. Essendo orientato
+il grafo ha un \emph{nodo iniziale} ed un \emph{nodo finale}.
+
+\begin{ese}
+\[ G(V, A) \quad V = \{v_1, v_2\}, \quad A = \{ (v_1, v_2), (v_2, v_1) \}\]
+$G$ è un grafo orientato. L'arco $(v_1, v_2) \in A$ ha $v_1$ come nodo iniziale
+e $v_2$ come finale.
+    \begin{figure}[!h]
+    \centering
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0, 0) {$v_1$};
+            \node[shape=circle,draw=black] (B) at (3, 0) {$v_2$};
+
+            \path [->] (A) edge [bend right=20] node[right] {} (B);
+            \path [->] (B) edge [bend right=20] node[left] {} (A);
+        \end{tikzpicture}
+    \end{figure}
+\end{ese}
+
+\begin{ese}
+L'immagine sottostante non rappresenta un grafo perchè i vertici $v_1$ e $v_2$
+sono collegati da due archi paralleli (ovvero due archi che hanno lo stesso nodo
+iniziale ed anche quello finale), inoltre c'è un cappio su $v_1$.
+    \begin{figure}[!h]
+    \centering
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0, 0) {$v_1$};
+            \node[shape=circle,draw=black] (B) at (3, 0) {$v_2$};
+
+            \path (A) edge [loop above] node {} (A);
+            \path [->] (A) edge [bend right=20] node[right] {} (B);
+            \path [->] (A) edge [bend left=20] node[right] {} (B);
+        \end{tikzpicture}
+    \end{figure}
+\end{ese}
+
+\begin{defn}[cammino orientato]
+Un \emph{cammino orientato} è una sequenza di nodi distinti dove, ogni coppia di nodi
+consecutivi nel cammino è collegata da un arco.
+\end{defn}
+
+\begin{ese}
+Nel grafo in figura è presente il cammino orientato: \[v_1 - v_3 - v_5 - v_2\]
+    \begin{figure}[!h]
+    \centering
+        \begin{tikzpicture}
+            \node[shape=circle,draw=orange] (A) at (0,0) {$v_1$};
+            \node[shape=circle,draw=orange] (B) at (4,0) {$v_2$};
+            \node[shape=circle,draw=orange] (C) at (4,4) {$v_3$};
+            \node[shape=circle,draw=black] (D) at (1,3) {$v_4$};
+            \node[shape=circle,draw=orange] (E) at (2.5,1.5) {$v_5$};
+
+            \path [->] (A) edge node[left] {} (B);
+            \path [draw=orange,line width=0.1em][->] (A) edge node[left] {} (C);
+            \path [->] (B) edge node[left] {} (E);
+            \path [draw=orange,line width=0.1em][->] (C) edge node[left] {} (E);
+            \path [->] (D) edge node[left] {} (A);
+            \path [->] (D) edge node[left] {} (C);
+            \path [draw=orange,line width=0.1em][->] (E) edge [out=35,in=-2] node[left] {} (B);
+        \end{tikzpicture}
+    \end{figure}
+\end{ese}
+
+\begin{defn}[circuito orientato]
+Cammino orientato nel quale esiste un arco dal primo all'ultimo nodo.
+\end{defn}
+
+\begin{ese}
+Circuito orientato: \[v_1 - v_3 - v_5 - v_2 - v_1\]
+    \begin{figure}[!h]
+    \centering
+        \begin{tikzpicture}
+            \node[shape=circle,draw=orange] (A) at (0,0) {$v_1$};
+            \node[shape=circle,draw=orange] (B) at (4,0) {$v_2$};
+            \node[shape=circle,draw=orange] (C) at (4,4) {$v_3$};
+            \node[shape=circle,draw=black] (D) at (1,3) {$v_4$};
+            \node[shape=circle,draw=orange] (E) at (2.5,1.5) {$v_5$};
+
+            \path [draw=orange,line width=0.1em][->] (B) edge node[left] {} (A);
+            \path [draw=orange,line width=0.1em][->] (A) edge node[left] {} (C);
+            \path [->] (B) edge node[left] {} (E);
+            \path [draw=orange,line width=0.1em][->] (C) edge node[left] {} (E);
+            \path [->] (D) edge node[left] {} (A);
+            \path [->] (D) edge node[left] {} (C);
+            \path [draw=orange,line width=0.1em][->] (E) edge [out=35,in=-2] node[left] {} (B);
+        \end{tikzpicture}
+    \end{figure}
+\end{ese}
+
+\begin{defn}[grafo fortemente connesso]
+Per ogni coppia di nodi esiste un cammino orientato che li collega. 
+\end{defn}
+
+\begin{ese}
+	\[ G( V = \{ v_1, v_2, v_3 \}, \
+    A = \{ (v_2, v_1), (v_1, v_3), (v_3, v_1),  (v_3, v_2) \}) \]
+    \begin{figure}[!h]
+        \centering
+            \begin{tikzpicture}
+                \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
+                \node[shape=circle,draw=black] (B) at (2,0) {$v_2$};
+                \node[shape=circle,draw=black] (C) at (2,2) {$v_3$};
+
+                %\path [->] (A) edge [bend left=20] node[right] {} (B);
+                \path [->] (B) edge [bend left=20] node[right] {} (A);
+                \path [->] (A) edge [bend left=20] node[right] {} (C);
+                \path [->] (C) edge [bend left=15] node[right] {} (A);
+                %\path [->] (B) edge [bend right=20] node[right] {} (C);
+                \path [->] (C) edge [bend left=20] node[right] {} (B);%right=20] node[right] {} (B);
+            \end{tikzpicture}
+    \end{figure}
+\end{ese}
+
+
+\section{Prime proprietà dei grafi non orientati}
+
+Sia $G(V,E)$ un grafo non orientato semplice.
+Non è difficile notare che il minimo numero di spigoli che un grafo può avere è $0$ (ogni vertice è isolato) mentre il massimo è:
+\marginpar{$|V|$ ed $|E|$ indicano la \emph{cardinalità} di $A$ ed $E$.
+La cardinalità di un insieme finito è un numero naturale che rappresenta la quantità di elementi
+che costituiscono l'insieme.} \[ \frac{|V|\text{ }(|V|-1)}{2} \]
+\begin{ese} grafi con $|V| = 3$ e $|V| = 4$.
+\begin{figure}[!h]		
+    \centering
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
+            \node[shape=circle,draw=black] (B) at (3,0) {$v_2$};
+            \node[shape=circle,draw=black] (C) at (3,3) {$v_3$};
+
+            \path (A) edge node {} (B);
+            \path (A) edge node {} (C);
+            \path (B) edge node {} (C);
+        \end{tikzpicture}
+        \hspace{1cm}
+        \begin{tikzpicture}
+            \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
+            \node[shape=circle,draw=black] (B) at (3,0) {$v_2$};
+            \node[shape=circle,draw=black] (C) at (3,3) {$v_3$};
+            \node[shape=circle,draw=black] (D) at (0,3) {$v_4$};
+
+            \path (A) edge node {} (B);
+            \path (A) edge node {} (C);
+            \path (B) edge node {} (C);
+            \path (A) edge node {} (D);
+            \path (C) edge node {} (D);
+            \path (B) edge node {} (D);
+
+        \end{tikzpicture}
+    \end{figure}
+\end{ese}
+
+\begin{defn}[grado di un vertice] Si chiama \emph{grado} di un vertice $v$ e si indica con $gr(v)$ il
+numero di spigoli incidenti in $v$.
+\end{defn}
+
+\begin{ese}
+	$gr(v_1) = 1$, \quad $gr(v_2) = 3$, \quad $gr(v_3) = gr(v_4) = gr(v_5) = 2$.
+	\[\sum_{v \in V}^{} gr(v) = 1 + 3 + 2 + 2 + 2 = 10 = 2 |E| = 2 \times 5\]
+
+	\begin{figure}[!h]
+	  	 \centering
+	        \begin{tikzpicture}
+		        \node[shape=circle,draw=black] (A) at (0,0) {$v_4$};
+		        \node[shape=circle,draw=black] (B) at (3,0) {$v_5$};
+		        \node[shape=circle,draw=black] (C) at (3,3) {$v_2$};
+		        \node[shape=circle,draw=black] (D) at (0,3) {$v_3$};
+		        \node[shape=circle,draw=black] (E) at (6,3) {$v_1$};
+
+		        \path (C) edge node {} (E);
+				\path (A) edge node {} (B);
+		        \path (B) edge node {} (C);
+		        \path (A) edge node {} (D);
+		        \path (C) edge node {} (D);
+
+	    	\end{tikzpicture}
+	\end{figure}
+\end{ese}
+
+\begin{thm}
+In ogni grafo semplice non orientato $G(V,E)$, la somma dei gradi di tutti i vertici è
+uguale al doppio del numero degli spigoli.
+\begin{equation} \label{eq:thm1} \sum_{v \in V}^{} gr(v) = 2|E| \end{equation}
+\proof
+	Per induzione su $m = |E|$:\\
+	\emph{caso base: $m = 0$}\\	
+	\indent $gr(v) = 0 \quad \forall v \in V$, \quad $|E| = 0$.\\
+	\emph{passo induttivo:}\\
+	\indent sia $G(V,E)$ un grafo con $m$ spigoli. Si suppone che ~\ref{eq:thm1} 
+	sia valida $\forall$ grafo con $m-1$ spigoli.\\
+	Siano $(\bar{u}, \bar{v}) \in E$ e $G'(V, E'=E \setminus \{(\bar{u}, \bar{v})\})$ ottenuto da $G$ togliendo 
+	$(\bar{u}, \bar{v})$.\\
+	Si può notare che $gr_G(\bar{u})= gr_{G'}(\bar{u})+1$, $gr_G(\bar{v}) = gr_{G'}(\bar{v})+1$ e quindi
+	${\forall x \in V \text{, } x \neq \bar{u} \text{, }  x \neq \bar{v}: \text{ } gr_G(x) = gr_{G'}(x)}$.\\%https://tex.stackexchange.com/questions/10850/stop-latex-from-breaking-an-inline-math-equation
+	$|E'| = |E|-1 = m -1 \implies$ in $G'$ vale l'ipotesi induttiva 
+    ${\implies \sum_{v \in V}^{} gr_{G'}(v) = 2|E'|}$.\\In $G$:
+
+    %https://it.sharelatex.com/learn/Aligning_equations_with_amsmath
+    \begin{equation*}
+    \begin{split}
+	 \sum_{v \in V}^{} gr(v) & = 
+     \sum_{v \in V \text{, } v \neq \bar{u} \text{, } v \neq \bar{v} }^{} 
+        gr_G(v)+gr_G(\bar{u})+gr_G(\bar{v}) \\ & =
+	 \sum_{v\in V\text{, }v\neq \bar{u}\text{, } v\neq \bar{v} }^{} 
+        gr_{G'}(v)+gr_{G'}(\bar{u})+1 +gr_{G'}(\bar{v}) +1 \\ & =
+	 \sum_{v \in V}^{} gr_{G'}(v) + 2 \underbrace{=}_{\text{ipotesi induttiva}} 2|E'| + 2 \\
+     & = 2(m-1) + 2 \\
+	 & = 2m \\ & = 2|E|
+    \end{split}
+    \end{equation*}
+        
+\endproof
+\end{thm}
+
+\begin{cor}
+    In ogni grafo non orientato, il numero dei vertici di grado dispari è pari.
+\proof
+    Siano $G(V,E)$ un grafo non orientato semplice, ${V_d = \{v \in V \mid gr(v) \text{ è dispari}\}}$ e
+    ${V_p = \{v \in V \mid gr(v) \text{ è pari}\}}$; quindi ${V_d \cap V_p = \emptyset}$ e 
+    ${V_d \cup V_p = V}$.
+    \begin{equation*}
+    \begin{split}
+        \sum_{v \in V}^{} gr(v) & = 
+        2|E| \\ & = 
+        \underbrace{{\sum_{v \in V_p}^{} gr(v)}}_{\text{pari}} + {\sum_{v \in V_d}^{} gr(v)} = 
+        \underbrace{2|E|}_{\text{pari}}
+    \end{split}
+    \end{equation*}
+    Poichè la somma dei gradi dei vertici che hanno grado pari è un numero pari, 
+    allora anche la somma dei gradi dei vertici che hanno grado dispari è un numero pari perché:
+    \[
+        {\sum_{v \in V_d}^{} gr(v)} = \underbrace{2|E|}_{\text{pari}} - 
+                \underbrace{{\sum_{v \in V_p}^{} gr(v)}}_{\text{pari}}
+    \]
+    e la differenza tra due numeri pari è un numero pari. Essendo quindi la somma dei gradi dei vertici
+    di grado dispari un numero pari, allora anche il numero dei vertici di grado dispari è un numero
+    pari. Questo perchè se si sommano $n$ numeri dispari, la loro somma è un numero pari 
+    se e solo se $n$ è pari.
+\endproof
+\end{cor}
+
+\begin{eser}
+    Trovare $G(V,E)$ con $|V| = 7$ e ${gr(v) = 5 \text{ } \forall v \in V}$.\\
+    Svolgimento: non esiste alcun grafo di questo tipo, per il corollario di cui sopra.%\QEDA
+\end{eser}
+
+
+
+\section{Prime proprietà dei grafi orientati}
+Sia $G(V,A)$ un grafo orientato semplice. Allora il minimo numero di archi che questo può
+avere è $0$ (ogni vertice è isolato) mentre il massimo è ${|V| \cdot (|V|-1)}$.
+
+\end{document}
+
+
+
+
+\marginpar{⟨nota a margine⟩}
+\footnote{⟨nota a piè di pagina⟩}
