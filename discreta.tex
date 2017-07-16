@@ -49,8 +49,8 @@
 \maketitle
 %fine copertina
 
-%indice analitico
-\tableofcontents
+
+\tableofcontents    %indice analitico
 
 
 %primo capitolo
@@ -64,6 +64,7 @@ un insieme finito di \emph{vertici} (o \emph{nodi}) ed $E$ è un insieme di copp
 \emph{non ordinate} di vertici 
 (\emph{spigoli}\footnote{Il nome dell'insieme è E perchè in inglese gli spigoli 
 sono chiamati \emph{edges}}).
+Il grafo è detto \emph{semplice} perché non può avere né cappi né spigoli paralleli.
 \end{defn}
 
 \begin{ese}
@@ -71,7 +72,7 @@ sono chiamati \emph{edges}}).
 \[ E = \{ (v_1,v_3), (v_1,v_7), (v_2,v_3), (v_4,v_7), (v_6,v_5), (v_4,v_2), (v_3,v_5), (v_5,v_7) \}\]
 \end{ese}
 
-\begin{figure}[!h]
+\begin{figure}[h]
     \centering
     \begin{tikzpicture}
         \node[shape=circle,draw=black] (A) at (0,6) {$v_1$};
@@ -96,11 +97,10 @@ sono chiamati \emph{edges}}).
 \end{figure}
 
 
-Il grafo è detto \emph{semplice} perché non può avere né cappi né spigoli paralleli.\\
 Lo spigolo $(v_1,v_3)$ ha come \emph{estremi} i vertici $v_1$ e $v_3$.
 
 \begin{ese}
-    \begin{figure}[!h]
+    \begin{figure}[h] \label{fig:no_semplice}
         \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
@@ -110,8 +110,9 @@ Lo spigolo $(v_1,v_3)$ ha come \emph{estremi} i vertici $v_1$ e $v_3$.
             \path (A) edge [bend right=20] (B);
             \path (B) edge [bend right=20] (A);
         \end{tikzpicture}
+        \caption{un grafo non orientato non semplice} \label{fig:no_semplice}
     \end{figure}
-Il grafo non orientato nella figura precedente non è semplice poiché presenta un
+Il grafo non orientato in figura~\ref{fig:no_semplice} non è semplice poiché presenta un
 cappio sul vertice $v_1$ e ci sono due spigoli paralleli tra i vertici $v_1$ e $v_2$.
 \end{ese}
 
@@ -304,8 +305,8 @@ $A$ è un insieme di \emph{coppie ordinate} di vertici dette \emph{archi}.
 
 \begin{ese}
 \[G(V,A) \text{ con } V = \{ v_1, v_2, v_3, v_4, v_5 \} \text{ e} \]
-\[A = \{ (v_1, v_2), (v_1, v_3), (v_2, v_5), (v_3, v_5), (v_4, v_1), (v_4, v_3), (v_5, v_2) \} \]
-    \begin{figure}[!h]
+\[A = \{ (v_1, v_3), (v_2, v_1), (v_2, v_5), (v_3, v_5), (v_4, v_1), (v_4, v_3), (v_5, v_2) \} \]
+    \begin{figure}[h]
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
@@ -314,8 +315,8 @@ $A$ è un insieme di \emph{coppie ordinate} di vertici dette \emph{archi}.
             \node[shape=circle,draw=black] (D) at (1,3) {$v_4$};
             \node[shape=circle,draw=black] (E) at (2.5,1.5) {$v_5$};
 
-            \path [->] (A) edge node[left] {} (B);
             \path [->] (A) edge node[left] {} (C);
+            \path [->] (B) edge node[left] {} (A);
             \path [->] (B) edge node[left] {} (E);
             \path [->] (C) edge node[left] {} (E);
             \path [->] (D) edge node[left] {} (A);
@@ -325,7 +326,7 @@ $A$ è un insieme di \emph{coppie ordinate} di vertici dette \emph{archi}.
     \end{figure}
 \end{ese}
 Il grafo è semplice perché non ha né cappi né archi paralleli. Essendo orientato
-il grafo ha un \emph{nodo iniziale} ed un \emph{nodo finale}.
+il grafo ha un \emph{nodo iniziale} (\emph{testa}) ed un \emph{nodo finale} (\emph{coda}).
 
 \begin{ese}
 \[ G(V, A) \quad V = \{v_1, v_2\}, \quad A = \{ (v_1, v_2), (v_2, v_1) \}\]
@@ -344,10 +345,11 @@ e $v_2$ come finale.
 \end{ese}
 
 \begin{ese}
-L'immagine sottostante non rappresenta un grafo perchè i vertici $v_1$ e $v_2$
-sono collegati da due archi paralleli (ovvero due archi che hanno lo stesso nodo
-iniziale ed anche quello finale), inoltre c'è un cappio su $v_1$.
-    \begin{figure}[!h]
+L'immagine in figura~\ref{fig:no_orientato_semplice} non rappresenta un grafo orientato semplice
+perchè i vertici $v_1$ e $v_2$ sono collegati da due archi paralleli 
+(ovvero due archi che hanno lo stesso nodo iniziale ed anche quello finale), 
+inoltre c'è un cappio su $v_1$.
+    \begin{figure}[h] 
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black] (A) at (0, 0) {$v_1$};
@@ -357,6 +359,7 @@ iniziale ed anche quello finale), inoltre c'è un cappio su $v_1$.
             \path [->] (A) edge [bend right=20] node[right] {} (B);
             \path [->] (A) edge [bend left=20] node[right] {} (B);
         \end{tikzpicture}
+        \caption{grafo orientato che non è semplice} \label{fig:no_orientato_semplice}
     \end{figure}
 \end{ese}
 
@@ -366,8 +369,9 @@ consecutivi nel cammino è collegata da un arco.
 \end{defn}
 
 \begin{ese}
-Nel grafo in figura è presente il cammino orientato: \[v_1 - v_3 - v_5 - v_2\]
-    \begin{figure}[!h]
+Nel grafo in figura~\ref{fig:cammino_orientato} è presente il cammino orientato: 
+\[v_1 - v_3 - v_5 - v_2\]
+    \begin{figure}[h]
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=orange] (A) at (0,0) {$v_1$};
@@ -376,7 +380,7 @@ Nel grafo in figura è presente il cammino orientato: \[v_1 - v_3 - v_5 - v_2\]
             \node[shape=circle,draw=black] (D) at (1,3) {$v_4$};
             \node[shape=circle,draw=orange] (E) at (2.5,1.5) {$v_5$};
 
-            \path [->] (A) edge node[left] {} (B);
+            \path [->] (B) edge node[left] {} (A);
             \path [draw=orange,line width=0.1em][->] (A) edge node[left] {} (C);
             \path [->] (B) edge node[left] {} (E);
             \path [draw=orange,line width=0.1em][->] (C) edge node[left] {} (E);
@@ -384,6 +388,7 @@ Nel grafo in figura è presente il cammino orientato: \[v_1 - v_3 - v_5 - v_2\]
             \path [->] (D) edge node[left] {} (C);
             \path [draw=orange,line width=0.1em][->] (E) edge [out=35,in=-2] node[left] {} (B);
         \end{tikzpicture}
+        \caption{cammino orientato} \label{fig:cammino_orientato}
     \end{figure}
 \end{ese}
 
@@ -393,7 +398,7 @@ Cammino orientato nel quale esiste un arco dal primo all'ultimo nodo.
 
 \begin{ese}
 Circuito orientato: \[v_1 - v_3 - v_5 - v_2 - v_1\]
-    \begin{figure}[!h]
+    \begin{figure}[h]
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=orange] (A) at (0,0) {$v_1$};
@@ -410,6 +415,7 @@ Circuito orientato: \[v_1 - v_3 - v_5 - v_2 - v_1\]
             \path [->] (D) edge node[left] {} (C);
             \path [draw=orange,line width=0.1em][->] (E) edge [out=35,in=-2] node[left] {} (B);
         \end{tikzpicture}
+        \caption{circuito orientato}
     \end{figure}
 \end{ese}
 
@@ -446,7 +452,7 @@ Non è difficile notare che il minimo numero di spigoli che un grafo può avere 
 La cardinalità di un insieme finito è un numero naturale che rappresenta la quantità di elementi
 che costituiscono l'insieme.} \[ \frac{|V|\text{ }(|V|-1)}{2} \]
 \begin{ese} grafi con $|V| = 3$ e $|V| = 4$.
-\begin{figure}[!h]		
+\begin{figure}[h]		
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
@@ -571,9 +577,45 @@ uguale al doppio del numero degli spigoli.
 
 
 
+
 \section{Prime proprietà dei grafi orientati}
 Sia $G(V,A)$ un grafo orientato semplice. Allora il minimo numero di archi che questo può
 avere è $0$ (ogni vertice è isolato) mentre il massimo è ${|V| \cdot (|V|-1)}$.
+
+\begin{defn}[grado entrante di un vertice]
+Si chiama grado \emph{entrante} di un vertice $v$ e si indica con ${In\text{-}deg(v)}$ il numero
+di archi entranti nel vertice v.
+\end{defn}
+
+\begin{defn}[grado uscente di un vertice]
+Si chiama grado \emph{uscente} di un vertice $v$ e si indica con ${Out\text{-}deg(v)}$ il numero
+di archi uscenti dal vertice v.
+\end{defn}
+
+\begin{ese}
+    La figura~\ref{fig:in_out} rappresenta un grafo con 
+    ${In\text{-}deg(v_1) = 1}$ e ${Out\text{-}deg(v_1) = 3}$
+    \begin{figure}[h]
+        \centering
+            \begin{tikzpicture} 
+                \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
+                \node[shape=circle,draw=black] (B) at (-3,-2) {$v_2$};
+                \node[shape=circle,draw=black] (C) at (0,-2) {$v_3$};
+                \node[shape=circle,draw=black] (D) at (3,-2) {$v_3$};
+
+
+                \path [->, draw=green] (A) edge [bend right=20] node[right] {} (B);
+                \path [->, draw=orange] (B) edge [bend right=20] node[right] {} (A);
+                \path [->, draw=green] (A) edge node[right] {} (C);
+                \path [->, draw=green] (A) edge [bend left=20] node[right] {} (D);
+            \end{tikzpicture}
+            \caption{esempio con ${In\text{-}deg(v_1) = 1}$ e ${Out\text{-}deg(v_1) = 3}$ } 
+            \label{fig:in_out}
+    \end{figure}
+    
+\end{ese}
+
+
 
 \end{document}
 
@@ -581,4 +623,4 @@ avere è $0$ (ogni vertice è isolato) mentre il massimo è ${|V| \cdot (|V|-1)}
 
 
 \marginpar{⟨nota a margine⟩}
-\footnote{⟨nota a piè di pagina⟩}
+\footnote{⟨nota a piè di pagina⟩}
