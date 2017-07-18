@@ -64,18 +64,15 @@ Un \emph{grafo non orientato semplice} $G$ è una coppia ordinata $(V,E)$ dove: 
 un insieme finito di \emph{vertici} (o \emph{nodi}) ed $E$ è un insieme di coppie
 \emph{non ordinate} di vertici 
 (\emph{spigoli}\footnote{L'insieme si chiama E perchè in inglese gli spigoli 
-sono denominati \emph{edges}}).
+sono denominati \emph{edges}}\footnote{ In molti libri di testo $E$, viene rappresentato come
+${E = \{ \text{ } \{v_1,v_3\},\text{ } \{v_1,v_7\}, \text{ } \dots \}}$ 
+perché non c'è alcun ordine tra gli spigoli.}).
 Il grafo è detto \emph{semplice} perché non può avere né cappi né spigoli paralleli.
 \end{defn}
 
 \begin{ese}
 \[V = \{ v_1, \dots, v_8 \}\]
-\[
-    E = \{ (v_1,v_3), (v_1,v_7), (v_2,v_3), (v_4,v_7),
-    (v_6,v_5), (v_4,v_2), (v_3,v_5), (v_5,v_7) \}
-\]\footnote{ In molti libri di testo l'insieme che continete gli spigoli, è rappresentato come
-    ${E = \{ \text{ } \{v_1,v_3\},\text{ } \{v_1,v_7\}, \text{ } \dots \}}$ 
-    perché non c'è alcun ordine tra di essi.}
+\[E = \{ (v_1,v_3), (v_1,v_7), (v_2,v_3), (v_4,v_7),(v_6,v_5), (v_4,v_2), (v_3,v_5), (v_5,v_7) \}\]
 \end{ese}
 
 \begin{figure}[!ht]
@@ -198,12 +195,12 @@ $v_4 \text{ - } v_7 \text{ - } v_5 \text{ - } v_3 \text{ - } v_2 \text{ - } v_4$
 
 \begin{defn}[grafo connesso]
 Un grafo si dice \emph{connesso} se per ogni coppia di vertici esiste un cammino
-che li collega.
+che li collega, altrimenti si dice \emph{disconnesso}.
 \end{defn}
 
 \begin{defn}[grafo completo]
 Un grafo è \emph{completo} se per ogni coppia di vertici esiste uno spigolo che li collega.
-Se il grafo ha $n$ vertici allora è un grafo $k_n$.
+Se il grafo ha $n$ vertici allora è un grafo~$k_n$.
 \end{defn}
 \begin{ese}
     3 grafi completi sono nella figura \ref{fig:completi}
@@ -645,7 +642,7 @@ di archi uscenti dal vertice v.
     \begin{figure}[!ht]
         \centering
             \begin{tikzpicture} 
-                \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
+                \node[shape=circle,draw=red] (A) at (0,0) {$v_1$};
                 \node[shape=circle,draw=black] (B) at (-3,-2) {$v_2$};
                 \node[shape=circle,draw=black] (C) at (0,-2) {$v_3$};
                 \node[shape=circle,draw=black] (D) at (3,-2) {$v_3$};
@@ -665,9 +662,10 @@ di archi uscenti dal vertice v.
 \begin{thm}
 In ogni grafo orientato $G(V,A)$ sono uguali tra loro: la somma dei gradi
 uscenti dei nodi, la somma dei gradi entranti dei nodi, il numero di archi del grafo.
+\[ {\sum_{v \in V}^{} In\text{-}deg(v)} = {\sum_{v \in V}^{} Out\text{-}deg(v)} = |A|\]
 
 \proof
-
+Da completare
 \endproof
 \end{thm}
 
