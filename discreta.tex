@@ -165,7 +165,7 @@ Cammino nel quale il primo e l'ultimo vertice sono adiacenti.
 \begin{ese}
 Il grafo in figura~\ref{fig:circ_semplice} ha il circuito:
 $v_4 \text{ - } v_7 \text{ - } v_5 \text{ - } v_3 \text{ - } v_2 \text{ - } v_4$.
-    \begin{figure}[!h]
+    \begin{figure}[!ht]
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black]  (A) at (0,6) {$v_1$};
@@ -262,7 +262,7 @@ Se il grafo ha $n$ vertici allora è un grafo~$k_n$.
     \end{figure}
 \end{ese}
 
-\begin{defn}[grafo bipartito]
+\begin{defn}[grafo bipartito]   \label{bip}
 Un grafo è \emph{bipartito}\footnote{I grafi bipartiti saranno discussi in seguito}
 se i suoi vertici sono partizionati in due sottoinsiemi, $U$ e $V$,
 e ogni spigolo è incidente in un vertice di $U$ e uno di $V$.
@@ -466,7 +466,7 @@ Non è difficile notare che il minimo numero di spigoli che un grafo può avere 
 \marginpar{$|V|$ ed $|E|$ indicano la \emph{cardinalità} di $A$ ed $E$.
 La cardinalità di un insieme finito è un numero naturale che rappresenta la quantità di elementi
 che costituiscono l'insieme.} \[ \frac{|V|\text{ }(|V|-1)}{2} \]
-\begin{ese} grafi con $|V| = 3$ e $|V| = 4$.
+\begin{ese} grafi con $|V| = 3$ e $|V| = 4$. (In figura~\ref{fig:card})
 \begin{figure}[!ht]		
     \centering
         \begin{tikzpicture}
@@ -493,6 +493,7 @@ che costituiscono l'insieme.} \[ \frac{|V|\text{ }(|V|-1)}{2} \]
             \path (B) edge node {} (D);
 
         \end{tikzpicture}
+        \caption{due grafi rispettivamente con $V = 3$ ed $V = 4$} \label{fig:card}
     \end{figure}
 \end{ese}
 
@@ -503,6 +504,7 @@ numero di spigoli incidenti in $v$.
 \begin{ese}
 	$gr(v_1) = 1$, \quad $gr(v_2) = 3$, \quad $gr(v_3) = gr(v_4) = gr(v_5) = 2$.
 	\[\sum_{v \in V}^{} gr(v) = 1 + 3 + 2 + 2 + 2 = 10 = 2 |E| = 2 \times 5\]
+    Il grafo relativo all'esempio è in~\ref{fig:esempio_grado}
 
 	\begin{figure}[!ht]
 	  	 \centering
@@ -520,6 +522,7 @@ numero di spigoli incidenti in $v$.
 		        \path (C) edge node {} (D);
 
 	    	\end{tikzpicture}
+            \caption{} \label{fig:esempio_grado}
 	\end{figure}
 \end{ese}
 
@@ -554,7 +557,6 @@ uguale al doppio del numero degli spigoli.
 	 & = 2m \\ & = 2|E|
     \end{split}
     \end{equation*}
-        
 \endproof
 \end{thm}
 
@@ -587,7 +589,8 @@ uguale al doppio del numero degli spigoli.
 
 \begin{eser}
     Trovare $G(V,E)$ con $|V| = 7$ e ${gr(v) = 5 \text{ } \forall v \in V}$.\\
-    Svolgimento: non esiste alcun grafo di questo tipo, per il corollario di cui sopra.%\QEDA
+    Svolgimento: non esiste alcun grafo di questo tipo, per il corollario di cui sopra.
+    Infatti $5 \cdot 7$ è un numero dispari.%\QEDA
 \end{eser}
 
 
@@ -598,7 +601,8 @@ Sia $G(V,A)$ un grafo orientato semplice. Allora il minimo numero di archi che q
 avere è $0$ (ogni vertice è isolato) mentre il massimo è ${|V| \cdot (|V|-1)}$.
 
 \begin{ese}
-Due grafi orientati con il loro massimo numero di archi possibili.
+Due grafi orientati con il loro massimo numero di archi possibili sono in 
+figura~\ref{fig:in_out_deg}
     \begin{figure}[h]
     \centering
         \begin{tikzpicture}
@@ -622,7 +626,7 @@ Due grafi orientati con il loro massimo numero di archi possibili.
             \path [->] (C) edge [bend left=20] node[right] {} (A);
         \end{tikzpicture} 
         \caption{Due grafi orientati con il loro massimo numero di archi possibile}
-       
+        \label{fig:in_out_deg}
     \end{figure}
 \end{ese}
 
@@ -660,17 +664,52 @@ di archi uscenti dal vertice v.
 
 
 \begin{thm}
-In ogni grafo orientato $G(V,A)$ sono uguali tra loro: la somma dei gradi
+In ogni grafo orientato semplice $G(V,A)$ sono uguali tra loro: la somma dei gradi
 uscenti dei nodi, la somma dei gradi entranti dei nodi, il numero di archi del grafo.
-\[ {\sum_{v \in V}^{} In\text{-}deg(v)} = {\sum_{v \in V}^{} Out\text{-}deg(v)} = |A|\]
-
+\begin{equation}
+{\sum_{v \in V}^{} In\text{-}deg(v)} = {\sum_{v \in V}^{} Out\text{-}deg(v)} = |A|
+\label{eq:thm2}
+\end{equation}
 \proof
-Da completare
+    Per induzione su $m = |A|$:\\
+    \emph{caso base: $m = 0$}\\ 
+    \indent $\sum_{v \in V}^{} In\text{-}deg(v) = \sum_{v \in V}^{} Out\text{-}deg(v) =
+    m = |A| = 0$.\\
+    \emph{passo induttivo:}\\
+    \indent sia $G(V,E)$ un grafo orientato con $m$ archi. Si suppone che~\ref{eq:thm2} 
+    sia valida $\forall$ grafo orientato con $m-1$ archi.\\
+    Sia $(\bar{u}, \bar{v}) \in A$ e sia 
+    $G'(V, \text{ } A'=A \setminus \{\text{ } (\bar{u}, \bar{v}) \text{ }\})$ 
+    ottenuto da $G$ togliendo $(\bar{u}, \bar{v})$. Allora:
+    \marginpar{Si somma $+1$ perché in $G$ c'è un arco entrante in più su $\bar{v}$ ed uno
+            uscente in più da $\bar{u}$ dato che $(\bar{u},\bar{v}) \in A$.}
+    \begin{align*}
+        \sum_{v \in V}^{} {In\text{-}deg_{G}(v)} & = \sum_{v \in V}^{} {In\text{-}deg_{G'}(v)} + 1\\
+        \sum_{v \in V}^{} Out\text{-}deg_{G}(v) & = \sum_{v \in V}^{} Out\text{-}deg_{G'}(v) + 1
+    \end{align*}
+    $|A'| = |A| - 1 = m - 1$ e\\ 
+    \begin{align*}
+        \sum_{v \in V}^{} {In\text{-}deg_{G'}(v)} & = \sum_{v \in V}^{} {Out\text{-}deg_{G'}(v)} = 
+        m - 1 = |A'|
+    \end{align*}
+    Quindi in $G'$ vale l'ipotesi induttiva.\\Ora in $G$:
+    \begin{equation*}
+    \begin{split}
+        |A| & = \sum_{v \in V}^{} {In\text{-}deg_{G}(v)} = \sum_{v \in V}^{} {Out\text{-}deg_{G}(v)}\\
+    & =\underbrace{\underbrace{\sum_{v \in V}^{} {In\text{-}deg_{G'}(v)}}_{|A'| = m-1}+1}_{m=|A|} =
+        \underbrace{\underbrace{\sum_{v \in V}^{} {Out\text{-}deg_{G'}(v)}}_{|A'| = m-1}+1}_{m=|A|}
+    \end{split}
+    \end{equation*}
 \endproof
 \end{thm}
 
 
-
+\section{Grafi bipartiti}
+Riprendiamo ora la discussione sui grafi bipartiti che sono stati definiti a pagina~\pageref{bip}.
+Un grafo è \emph{bipartito} se i suoi vertici sono partizionati in due sottoinsiemi,
+$V_1$ e $V_2$ ed ogni spigolo è incidente in un vertice di $V_1$ e uno di $V_2$.
+Il minimo numero di spigoli che un grafo bipartito può avere è $0$, mentre il massimo é 
+$|V_1|\cdot|V_2|$.
 \end{document}
 
 
