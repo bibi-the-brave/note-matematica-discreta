@@ -23,6 +23,13 @@
 \usetikzlibrary{graphs}
 \usetikzlibrary{arrows}
 
+\usepackage{caption}
+\usepackage{tabularx}
+
+
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+
 \theoremstyle{plain} 
 \newtheorem{thm}{Teorema}[section] 
 \newtheorem{cor}[thm]{Corollario} 
@@ -30,13 +37,13 @@
 \newtheorem{prop}[thm]{Proposizione} 
 
 \theoremstyle{definition} 
-\newtheorem{defn}{Definizione}[chapter] 
+\newtheorem{defn}{Definizione}[chapter]
 %\theoremstyle{remarks} 
 \newtheorem{ese}{Esempio}[section]
 \newtheorem{oss}{Osservazione}[section]
 \newtheorem{eser}{Esercizio}[section]
 
-\pagestyle{headings}
+\pagestyle{headings}       %rimetterlo
 
 %\newcommand*{\QEDA}{\hfill\ensuremath{\blacksquare}}%
 %\newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
@@ -192,6 +199,11 @@ $v_4 \text{ - } v_7 \text{ - } v_5 \text{ - } v_3 \text{ - } v_2 \text{ - } v_4$
         \label{fig:circ_semplice}
     \end{figure}
 \end{ese}
+
+\begin{defn}[lunghezza di un circuito/cammino]
+La lunghezza di un circuito o di un cammino è il numero degli spigoli formati dai
+nodi del cammino/circuito.
+\end{defn}
 
 \begin{defn}[grafo connesso]
 Un grafo si dice \emph{connesso} se per ogni coppia di vertici esiste un cammino
@@ -534,7 +546,7 @@ uguale al doppio del numero degli spigoli.
 	Per induzione su $m = |E|$:\\
 	\emph{caso base: $m = 0$}\\	
 	\indent $gr(v) = 0 \quad \forall v \in V$, \quad $|E| = 0$.\\
-	\emph{passo induttivo:}\\
+	\emph{passo induttivo:} $P(m-1) \implies P(m)$\\
 	\indent sia $G(V,E)$ un grafo con $m$ spigoli. Si suppone che ~\ref{eq:thm1} 
 	sia valida $\forall$ grafo con $m-1$ spigoli.\\
 	Siano $(\bar{u}, \bar{v}) \in E$ e $G'(V, E'=E \setminus \{(\bar{u}, \bar{v})\})$ ottenuto da $G$ togliendo 
@@ -543,9 +555,7 @@ uguale al doppio del numero degli spigoli.
 	${\forall x \in V \text{, } x \neq \bar{u} \text{, }  x \neq \bar{v}: \text{ } gr_G(x) = gr_{G'}(x)}$.\\%https://tex.stackexchange.com/questions/10850/stop-latex-from-breaking-an-inline-math-equation
 	$|E'| = |E|-1 = m -1 \implies$ in $G'$ vale l'ipotesi induttiva 
     ${\implies \sum_{v \in V}^{} gr_{G'}(v) = 2|E'|}$.\\In $G$:
-
-    %https://it.sharelatex.com/learn/Aligning_equations_with_amsmath
-    \begin{equation*}
+    \begin{equation*}%https://it.sharelatex.com/learn/Aligning_equations_with_amsmath
     \begin{split}
 	 \sum_{v \in V}^{} gr(v) & = 
      \sum_{v \in V \text{, } v \neq \bar{u} \text{, } v \neq \bar{v} }^{} 
@@ -675,9 +685,9 @@ uscenti dei nodi, la somma dei gradi entranti dei nodi, il numero di archi del g
     \emph{caso base: $m = 0$}\\ 
     \indent $\sum_{v \in V}^{} In\text{-}deg(v) = \sum_{v \in V}^{} Out\text{-}deg(v) =
     m = |A| = 0$.\\
-    \emph{passo induttivo:}\\
+    \emph{passo induttivo:} $P(m-1) \implies P(m)$\\
     \indent sia $G(V,E)$ un grafo orientato con $m$ archi. Si suppone che~\ref{eq:thm2} 
-    sia valida $\forall$ grafo orientato con $m-1$ archi.\\
+    sia valida $\forall$~grafo orientato con $m-1$ archi.\\
     Sia $(\bar{u}, \bar{v}) \in A$ e sia 
     $G'(V, \text{ } A'=A \setminus \{\text{ } (\bar{u}, \bar{v}) \text{ }\})$ 
     ottenuto da $G$ togliendo $(\bar{u}, \bar{v})$. Allora:
@@ -687,7 +697,7 @@ uscenti dei nodi, la somma dei gradi entranti dei nodi, il numero di archi del g
         \sum_{v \in V}^{} {In\text{-}deg_{G}(v)} & = \sum_{v \in V}^{} {In\text{-}deg_{G'}(v)} + 1\\
         \sum_{v \in V}^{} Out\text{-}deg_{G}(v) & = \sum_{v \in V}^{} Out\text{-}deg_{G'}(v) + 1
     \end{align*}
-    $|A'| = |A| - 1 = m - 1$ e\\ 
+    $|A'| = |A| - 1 = m - 1$ e
     \begin{align*}
         \sum_{v \in V}^{} {In\text{-}deg_{G'}(v)} & = \sum_{v \in V}^{} {Out\text{-}deg_{G'}(v)} = 
         m - 1 = |A'|
@@ -703,6 +713,74 @@ uscenti dei nodi, la somma dei gradi entranti dei nodi, il numero di archi del g
 \endproof
 \end{thm}
 
+\section{Sottografi}
+\begin{defn}[sottografo]
+Dato  $G(V,E)$ grafo non orientato semplice, un suo \emph{sottografo} è un grafo
+$G'(V',E')$ con $V' \subseteq V$ e $E' \subseteq E$.
+\end{defn}
+
+\begin{defn}[sottografo indotto]
+Dato  $G(V,E)$ grafo non orientato semplice, un suo \emph{sottografo indotto} è un 
+suo sottografo ${G'(V',E')}$ tale che ${\forall (u,v) \in E}$, se
+${u,v \in V' \implies (u,v) \in E'}$.
+\end{defn}
+
+\begin{ese}
+In figura~\ref{fig:sottografi} sono raffigurati un grafo ${G(V,E)}$, un suo sottografo
+${G'(V' = \{a,d,f,e\}, E'= \{ (a,d), (a,f) \})}$ ed un suo sottografo indotto (da $V'$)\\
+${G''(V', E''= \{ (a,d), (a,f), (d,f), (f,e) \})}$.
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}[thick,scale=0.5]
+        \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                        inner sep=0pt, minimum size=4pt}]
+            \node (A) at (0,0) [label=left:$a$]{};
+            \node (B) at (0,-3) [label=60:$d$]{};
+            \node (C) at (-3,-3) [label=left:$b$]{};
+            \node (D) at (2.5,-3) [label=right:$f$]{};
+            \node (E) at (-2.3,-6) [label=left:$c$]{};
+            \node (F) at (0.5,-6) [label=right:$e$]{};
+        \end{scope}
+
+        \path (A) edge node {} (B);
+        \path (A) edge node {} (D);
+        \path (A) edge node {} (E);
+        \path (B) edge node {} (C);
+        \path (B) edge node {} (D);
+        \path (B) edge node {} (E);
+        \path (D) edge node {} (F);
+        \path (E) edge node {} (F);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}[thick,scale=0.5]
+        \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                        inner sep=0pt, minimum size=4pt}]
+        \node (A) at (0,0) [label=left:$a$]{};
+        \node (B) at (0,-3) [label=60:$d$]{};
+        \node (C) at (2.5,-3) [label=right:$f$]{};
+        \node (D) at (0.5,-6) [label=right:$e$]{};
+        \end{scope}
+        \path (A) edge node {} (B);
+        \path (A) edge node {} (C);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}[thick,scale=0.5]
+        \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                        inner sep=0pt, minimum size=4pt}]
+            \node (A) at (0,0) [label=left:$a$]{};
+            \node (B) at (0,-3) [label=60:$d$]{};
+            \node (C) at (2.5,-3) [label=right:$f$]{};
+            \node (D) at (0.5,-6) [label=right:$e$]{};
+        \end{scope}
+        \path (A) edge node {} (B);
+        \path (A) edge node {} (C);
+        \path (B) edge node {} (C);
+        \path (C) edge node {} (D);
+    \end{tikzpicture}
+    \caption{Rispettivamente: un grafo $G(V,E)$, un suo sottografo ed un suo sottografo indotto.}
+    \label{fig:sottografi}
+    \end{figure}
+\end{ese}
 
 \section{Grafi bipartiti}
 Riprendiamo ora la discussione sui grafi bipartiti che sono stati definiti a pagina~\pageref{bip}.
@@ -710,6 +788,72 @@ Un grafo è \emph{bipartito} se i suoi vertici sono partizionati in due sottoins
 $V_1$ e $V_2$ ed ogni spigolo è incidente in un vertice di $V_1$ e uno di $V_2$.
 Il minimo numero di spigoli che un grafo bipartito può avere è $0$, mentre il massimo é 
 $|V_1|\cdot|V_2|$.
+
+\begin{prop}[condizione necessaria e sufficiente per grafi bipartiti]
+Se $G(V,E)$ è un grafo bipartito e $G'(V',E')$ è un suo sottografo allora
+$G'(V',E')$ è bipartito.
+Questo equivale a dire che $G'$ non è bipartito~$\iff \text{ } G$~non è bipartito. 
+\end{prop}
+
+\begin{thm}
+Un grafo~$G(V,E)$ è bipartito~$\iff$~ogni circuito di $G$ ha lunghezza pari
+(la lunghezza di un circuito è il numero degli spigoli).
+\end{thm}
+\proof
+Dimostriamo prima $\Longrightarrow)$ e poi $\Longleftarrow)$.\\
+$\implies)$ Sia $G$ un grafo bipartito e ${C = x_1\text{ - }\dots\text{ - }x_k\text{ - }x_1}$
+un suo circuito di lunghezza $k$.
+Per la definizione di grafo bipartito i nodi del circuito devono essere del tipo:
+${x_1 \in V_1,}\text{ }{x_2 \in V_2,}\text{ }{x_3 \in V_1,\text{ }\dots}$\\ 
+Più precisamente: ${x_j \in V_1}$ se~$j$ è dispari e ${x_j \in V_2}$ se~$j$ è pari, con
+${j = 1,\dots,k}$.\\
+Poiché ${(x_1, x_k) \in E} \text{, } {x_1 \in V_1 \implies x_k \in V_2 \implies k}$ è pari
+e, per come è stato definito il circuito, questo ha lunghezza $k$.\\
+$\Longleftarrow)$ Sia $G$ un grafo con tutti i circuiti di lunghezza pari. Sia $v \in V$,
+lo ''mettiamo'' in $V_1$, tutti i suoi adiacenti allora stanno in $V_2$.
+DA COMPLETARE
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}[thick,scale=0.5]
+        \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                        inner sep=0pt, minimum size=4pt}]
+            \node (A) at (0,0) [label=left:$x_1$]{};
+            \node (B) at (3,-2) [label=right:$x_2$]{};
+            \node (C) at (3,-4) [label=right:$x_3$]{};
+            \node (D) at (2.25,-7) [label=right:$x_4$]{};
+            \node (E) at (-2.5,-3) [label=left:$x_{k-1}$]{};
+            \node (F) at (-1.5,-1.5) [label=left:$x_k$]{};
+        \end{scope}
+
+        \path (A) edge node {} (B);
+        \path (B) edge node {} (C);
+        \path (C) edge node {} (D);
+        \path (D) edge node {} (E) [dashed];
+        \path (E) edge node {} (F);
+        \path (F) edge node {} (A);
+    \end{tikzpicture}
+\end{figure}
+\endproof
+
+ci va l'algoritmo...
+
+\section{Grafi isomorfi}
+\begin{defn}[grafi isomorfi]
+Due grafi $G(V,E)$ e $G'(V',E')$ sono \emph{isomorfi} se esiste una corrispondenza biunivoca
+(\emph{isomorfismo}) tra i vertici di $V$ e quelli di $V'$ tali che: due vertici di $V$ sono
+adiacenti in $G \iff $ i corrispondenti vertici di $V'$ sono adiacenti in $G'$. 
+\end{defn}
+Stabilire se due grafi sono isomorfi è un problema difficile, l'unico modo che si ha per 
+sapere se lo sono è ''cercare l'isomorfismo''.
+Due grafi sono isomorfi se:
+\begin{itemize}
+    \item hanno lo stesso numero di vertici
+    \item hanno lo stesso numero di spigoli
+    \item hanno lo stesso numero di vertici con lo stesso grado
+    \item hanno gli stessi sottografi indotti
+    \item i complementari devono essere isomorfi
+\end{itemize}
+
 \end{document}
 
 
