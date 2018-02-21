@@ -1,4 +1,4 @@
-\documentclass[a4paper, openany]{book}
+\documentclass[a4paper, oneside, openany]{book}
 
 
 \usepackage[utf8]{inputenc}
@@ -23,9 +23,18 @@
 \usetikzlibrary{graphs}
 \usetikzlibrary{arrows}
 
-\usepackage{caption}
+\usepackage{caption}        %per includere figure fluttuanti
+\usepackage{subcaption}     %sottofigure numerabili
+
 \usepackage{tabularx}
 
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+%\usepackage{marginfix}      %per risolvere problemi con i margini che vanno a donne di facili costumi
+%\pdfsavepos
 
 %\usepackage{algorithm}
 %\usepackage{algorithmic}
@@ -43,10 +52,15 @@
 \newtheorem{oss}{Osservazione}[section]
 \newtheorem{eser}{Esercizio}[section]
 
-\pagestyle{headings}       %rimetterlo
+\pagestyle{headings}
+
+\newcommand{\comment}[1]{}
 
 %\newcommand*{\QEDA}{\hfill\ensuremath{\blacksquare}}%
 %\newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
+
+\renewcommand{\algorithmicforall}{\textbf{for each}}
+
 
 %inizio del documento
 \begin{document}
@@ -68,12 +82,12 @@
 
 \begin{defn}[grafo non orientato semplice]	
 Un \emph{grafo non orientato semplice} $G$ è una coppia ordinata $(V,E)$ dove: $V=\{v_1,\dots,v_n\}$ è
-un insieme finito di \emph{vertici} (o \emph{nodi}) ed $E$ è un insieme di coppie
-\emph{non ordinate} di vertici 
+un insieme\footnote{ In molti libri di testo $E$ viene rappresentato come
+${E = \{ \text{ } \{v_i,v_j\}, \text{ } \dots \}}$ 
+perché non c'è alcun ordine tra gli spigoli.} finito di \emph{vertici} (o \emph{nodi}) ed $E$ è 
+un insieme di coppie \emph{non ordinate} di vertici 
 (\emph{spigoli}\footnote{L'insieme si chiama E perchè in inglese gli spigoli 
-sono denominati \emph{edges}}\footnote{ In molti libri di testo $E$, viene rappresentato come
-${E = \{ \text{ } \{v_1,v_3\},\text{ } \{v_1,v_7\}, \text{ } \dots \}}$ 
-perché non c'è alcun ordine tra gli spigoli.}).
+sono denominati \emph{edges}}).% o \emph{lati}).
 Il grafo è detto \emph{semplice} perché non può avere né cappi né spigoli paralleli.
 \end{defn}
 
@@ -113,7 +127,7 @@ Lo spigolo $(v_1,v_3)$ ha come \emph{estremi} i vertici $v_1$ e $v_3$.
 \begin{ese}
     \begin{figure}[!ht]
         \centering
-        \begin{tikzpicture}
+        \begin{tikzpicture}[every loop/.style={}]
             \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
             \node[shape=circle,draw=black] (B) at (4,0) {$v_2$};
 
@@ -600,7 +614,8 @@ uguale al doppio del numero degli spigoli.
 \begin{eser}
     Trovare $G(V,E)$ con $|V| = 7$ e ${gr(v) = 5 \text{ } \forall v \in V}$.\\
     Svolgimento: non esiste alcun grafo di questo tipo, per il corollario di cui sopra.
-    Infatti $5 \cdot 7$ è un numero dispari.%\QEDA
+    Infatti ho $7$ vertici di grado dispari ma, il numero dei vertici di grado dispari
+    deve essere un numero pari, assurdo.%\QEDA
 \end{eser}
 
 
@@ -672,7 +687,6 @@ di archi uscenti dal vertice v.
     \end{figure}
 \end{ese}
 
-
 \begin{thm}
 In ogni grafo orientato semplice $G(V,A)$ sono uguali tra loro: la somma dei gradi
 uscenti dei nodi, la somma dei gradi entranti dei nodi, il numero di archi del grafo.
@@ -691,7 +705,7 @@ uscenti dei nodi, la somma dei gradi entranti dei nodi, il numero di archi del g
     Sia $(\bar{u}, \bar{v}) \in A$ e sia 
     $G'(V, \text{ } A'=A \setminus \{\text{ } (\bar{u}, \bar{v}) \text{ }\})$ 
     ottenuto da $G$ togliendo $(\bar{u}, \bar{v})$. Allora:
-    \marginpar{Si somma $+1$ perché in $G$ c'è un arco entrante in più su $\bar{v}$ ed uno
+    \marginpar{Si somma $1$ perché in $G$ ci sono un arco entrante in più su $\bar{v}$ ed uno
             uscente in più da $\bar{u}$ dato che $(\bar{u},\bar{v}) \in A$.}
     \begin{align*}
         \sum_{v \in V}^{} {In\text{-}deg_{G}(v)} & = \sum_{v \in V}^{} {In\text{-}deg_{G'}(v)} + 1\\
@@ -782,6 +796,213 @@ ${G''(V', E''= \{ (a,d), (a,f), (d,f), (f,e) \})}$.
     \end{figure}
 \end{ese}
 
+\section{Connettività e tagli}
+\begin{defn}[Connessione di 2 vertici] Sia $G(V,E)$ un grafo non orientato 
+e siano $u,v \in V$. $u$ e $v$ sono \emph{connessi} se esiste 
+un cammino che ha come estremità $u$ e $v$.
+\end{defn}
+La connessione è una relazione di equivalenza nell'insieme $V$ dei vertici:
+\begin{itemize}
+    \item{$u$ è connesso a se stesso (riflessività)}
+    \item{$u$ è connesso a $v \implies v$ è connesso a $u$ (simmetria)}
+    \item{$u$ è connesso a $v$ e $v$ è connesso a $t \implies u$ è connesso a $t$ (transitività)}
+\end{itemize}
+$u$ e $v$ sono connessi solo se, partizionato $V$ in $V_1, V_2, \dots, V_k$ insiemi, sia $u$
+che $v$ appartengono allo stesso insieme $V_i$ (con $1 \leqslant i \leqslant k$).
+I $k$ insiemi rappresentano le \emph{componenti connesse} del grafo $G$. Tale grafo
+$G$ è \emph{connesso} se esiste una unica partizione\marginpar{Una \emph{partizione} di~$V$ è una
+sua scomposizione in parti disgiunte} (quindi $k = 1$), altrimenti si dice
+\emph{sconnesso} ($k \geqslant 1$). Le componenti connesse di un grafo sono i suoi sottografi
+connessi massimali.
+
+\begin{ese} In figura~\ref{fig:connesso_sconnesso} sono rappresentati un grafo connesso
+    ed un grafo sconnesso con 3 componenti connesse.
+    \begin{figure}[!ht]
+        \centering
+        \begin{subfigure}[grafo connesso]{{0.31\textwidth}}
+            \begin{tikzpicture}[thick,scale=0.5]
+                \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                                inner sep=0pt, minimum size=4pt}]
+                    \node (A) at (0,0) [label=right:$a$]{};
+                    \node (B) at (-3,-3) [label=180:$b$]{};
+                    \node (C) at (3,-3) [label=right:$c$]{};
+                    \node (D) at (0,-6) [label=right:$d$]{};
+                \end{scope}
+
+                \path (A) edge node {} (B);
+                \path (A) edge node {} (C);
+                \path (B) edge node {} (C);
+                \path (B) edge node {} (D);
+                \path (D) edge node {} (B);
+            \end{tikzpicture}
+            \caption{grafo connesso} 
+            \label{fig:connessione}
+        \end{subfigure}
+        \hspace*{1cm}%\hspace*{\fill}
+        \begin{subfigure}[grafo sconnesso]{{0.31\textwidth}}
+            \begin{tikzpicture}[thick,scale=0.5]
+                \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                                inner sep=0pt, minimum size=4pt}]
+                    \node (A) at (0,0) [label=left:$1$]{};
+                    \node (B) at (3,3) [label=right:$2$]{};
+                    \node (C) at (3,0) [label=right:$3$]{};
+                    \node (D) at (3,-3) [label=right:$4$]{};
+                    \node (E) at (5,0) [label=90:$5$]{};
+                    \node (F) at (7,1.5) [label=90:$6$]{};
+                    \node (G) at (7,-1.5) [label=270:$7$]{};
+                \end{scope}
+
+                \path (A) edge node {} (B);
+                \path (A) edge node {} (C);
+                \path (A) edge node {} (D);
+                \path (F) edge node {} (G);
+            \end{tikzpicture}
+            \caption{grafo sconnesso con 3 componenti connesse} 
+            \label{fig:sconnesso}
+        \end{subfigure}
+        \caption{un grafo connesso ed un grafo sconnesso} 
+        \label{fig:connesso_sconnesso}
+    \end{figure}
+\end{ese}
+
+\begin{ese} In figura~\ref{fig:com_conn_grafo} sono rappresentati un grafo e le sue componenti
+    connesse (ovvero i suoi sottografi connessi massimali).
+    \begin{figure}[!ht]
+        \centering
+        \begin{subfigure}{{0.31\textwidth}}
+            \begin{tikzpicture}[thick,scale=0.5]
+                \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                                inner sep=0pt, minimum size=4pt}]
+                    \node (A) at (0,0) [label=90:$a$]{};
+                    \node (B) at (3,-3) [label=right:$b$]{};
+                    \node (C) at (-3,-3) [label=left:$c$]{};
+                    \node (D) at (-2,-1) [label=left:$d$]{};
+                    \node (E) at (0,-4) [label=right:$e$]{};
+                    \node (F) at (4,-1.5) [label=right:$f$]{};
+                \end{scope}
+
+                \path (A) edge node {} (B);
+                \path (A) edge node {} (C);
+                \path (B) edge node {} (C);
+                \path (D) edge node {} (E);
+            \end{tikzpicture}
+            \caption{un grafo $G$} 
+            \label{fig:connessione}
+        \end{subfigure}
+        \hspace*{1cm}%\hspace*{\fill}
+        \begin{subfigure}{0.31\textwidth}
+            \begin{tikzpicture}[thick,scale=0.5]
+                \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                                inner sep=0pt, minimum size=4pt}]
+                    \node (A) at (0,0) [label=90:$a$]{};
+                    \node (B) at (3,-3) [label=right:$b$]{};
+                    \node (C) at (-3,-3) [label=left:$c$]{};
+                    \node (D) at (5,0) [label=right:$d$]{};
+                    \node (E) at (7,-2) [label=right:$e$]{};
+                    \node (F) at (4,-1.5) [label=90:$f$]{};
+                \end{scope}
+
+                \path (A) edge node {} (B);
+                \path (A) edge node {} (C);
+                \path (B) edge node {} (C);
+                \path (D) edge node {} (E);
+            \end{tikzpicture}
+            \caption{le componenti connesse di $G$} 
+            \label{fig:comp_conn}
+        \end{subfigure}
+        \caption{un grafo e le sue componenti connesse} 
+        \label{fig:com_conn_grafo}
+    \end{figure}
+\end{ese}
+
+\begin{defn}[taglio]
+Sia ${G(V,E)}$ un grafo non orientato e sia ${S \subseteq V}$. Il \emph{taglio} (\emph{cut})
+associato ad~$S$ è l'insieme degli \emph{spigoli che hanno esattamente una estremità} 
+in~$S$ e si indica con~$\delta(S)$.
+\[ \delta(S) = \{(u,v) \in E \colon | S \cap \{u,v\} | = 1 \} \]
+\end{defn}
+Si dice che $\delta(S)$ separa $u$ e $v$ se ${|S \cap \{u,v\}| = 1}$.
+
+\begin{ese}
+esempio: ${V=\{a,b,c,d,e\}}$ sono i nodi del grafo in figura~\ref{fig:es_taglio} che, ha come
+taglio associato ad ${S = \{a, b\}}$ l'insieme ${\delta(S)= \{(a,d),(a,c),(b,c),(b,e)\}}$.
+    \begin{figure}
+        \centering
+            \begin{tikzpicture}[thick,scale=0.5]
+                \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                                inner sep=0pt, minimum size=4pt}]
+                    \node (A) at (0,0) [label=left:$a$]{};
+                    \node (B) at (3,0) [label=right:$b$]{};
+                    \node (C) at (1.5,1.5) [label=90:$c$]{};
+                    \node (D) at (0,3) [label=left:$d$]{};
+                    \node (E) at (3,3) [label=right:$e$]{};
+                \end{scope}
+
+                \path (A) edge node {} (B);
+                \path [draw=red,line width=0.2em](A) edge node {} (C);
+                \path [draw=red,line width=0.2em](B) edge node {} (C);
+                \path (D) edge node {} (E);
+                \path [draw=red,line width=0.2em](A) edge node {} (D);
+                \path [draw=red,line width=0.2em](B) edge node {} (E);
+                \path (C) edge node {} (D);
+                \path (C) edge node {} (E);
+                \path (D) edge node {} (E);
+            \end{tikzpicture}
+        \caption{Taglio associato ad $S = \{ a, b \}$} 
+        \label{fig:es_taglio}
+    \end{figure}
+\end{ese}
+
+\begin{thm}
+Sia ${P = u - \dots - v}$ un cammino su un grafo ${G(V,E)}$ e sia $\delta(S)$ un taglio che
+separa $u$ da~$v$, allora ${ |P \cap \delta(S)| \geqslant 1 }$. \marginpar{Con
+${P \cap \delta(S)}$ facciamo riferimento all'intersezione dell'insieme formato da
+tutti gli spigoli che sono parte del cammino $P$ con $\delta(S)$}
+\label{thm:taglio_cammino}
+\end{thm}
+\proof
+%Poichè esiste un cammino $P$ tra $u$~e~$v$ questo vuol dire che i due nodi sono connessi.
+Per la definizione di taglio ${\exists S \subset V}$ in cui ${u \in S}$ o ${v \in S}$ ma,
+sia $u$ che $v$ non possono appertenere entrambi allo stesso insieme $S$. Supponiamo che
+${u \in S}$ (un ragionamento analogo lo si può fare per $v$), allora 
+\endproof
+
+\begin{thm}
+Sia $G(V,E)$ un grafo non orientato, allora ${u,v \in V}$ appartengono alla stessa 
+componente connessa di ${G \iff \delta(S) \neq \emptyset \text{ } \forall 
+\delta(S\neq \emptyset)}$ che separa $u$ e~$v$.
+\end{thm}
+\proof
+Sia ${G(V,E)}$ un grafo non orientato connesso, sia ${S \subseteq V}$, ${S \neq \emptyset}$ e
+sia $\delta(S)$ un taglio di~$G$ che separa due nodi $u$ e~$v$. Dato che $G$ è connesso allora
+esiste un cammino $P$ tra $u$ e~$v$, per il Teorema~\ref{thm:taglio_cammino} sappiamo che
+${ |P \cap \delta(S)| \geqslant 1 }$ quindi ${\delta(S) \neq \emptyset}$.
+\endproof
+
+\begin{algorithm}
+\caption{Algoritmo che determina se $\exists$ un cammino tra $u$~e~$v$ }\label{alg:algo_bipartizione}
+\begin{algorithmic}
+\REQUIRE{un grafo ${G(V,E)}$ ed un suo vertice ${v \in V}$}
+\ENSURE{Una comp. connessa $C$ che contiene~$v$ (tutti i nodi raggiungibili da $v$)}
+\STATE $C = \emptyset$
+\STATE prendo $v$ e lo metto in $C$ \COMMENT{proprietà riflessiva: $v$ è connesso a se stesso}
+\STATE \COMMENT{Adesso esamino tutti i nodi che sono nella comp. connessa.}
+\FORALL{$u \in C$}
+    \STATE aggiungo a $C$ tutti i vertici adiacenti a $u$ che non sono già in $C$
+\ENDFOR
+\STATE \COMMENT{ora $C$ è la componente connessa che contieve $v$, se contiene 
+                anche $u$ allora $\exists$~un cammino tra $u$ e~$v$}
+
+\end{algorithmic}
+\end{algorithm}
+
+\begin{defn}[connettività sugli spigoli]
+Sia ${G(V,E)}$ un grafo connesso. Si dice connettività
+sugli spigoli e si indica con~$\lambda(G)$ il minimo numero di spigoli la cui rimozione 
+trasforma $G$ in un grafo sconnesso.
+\end{defn}
+
+
 \section{Grafi bipartiti}
 Riprendiamo ora la discussione sui grafi bipartiti che sono stati definiti a pagina~\pageref{bip}.
 Un grafo è \emph{bipartito} se i suoi vertici sono partizionati in due sottoinsiemi,
@@ -799,10 +1020,12 @@ Questo equivale a dire che $G'$ non è bipartito~$\iff \text{ } G$~non è bipart
 Un grafo~$G(V,E)$ è bipartito~$\iff$~ogni circuito di $G$ ha lunghezza pari
 (la lunghezza di un circuito è il numero degli spigoli).
 \end{thm}
+%\begin{comment}
 \proof
-Dimostriamo prima $\Longrightarrow)$ e poi $\Longleftarrow)$.\\
-$\implies)$ Sia $G$ un grafo bipartito e ${C = x_1\text{ - }\dots\text{ - }x_k\text{ - }x_1}$
-un suo circuito di lunghezza $k$.
+Consideriamo solamente i grafi connessi dato che ogni ciclo è contenuto in una componente
+connessa e se le componenti connesse sono bipartite allora anche il grafo è bipartito.\\
+$\Longrightarrow)$ Sia $G$ un grafo bipartito e ${c = x_1\text{ - }\dots\text{ - }x_k\text{ - }x_1}$
+un suo circuito di lunghezza $k$ (in figura~\ref{fig:circuito_dim}).
 Per la definizione di grafo bipartito i nodi del circuito devono essere del tipo:
 ${x_1 \in V_1,}\text{ }{x_2 \in V_2,}\text{ }{x_3 \in V_1,\text{ }\dots}$\\ 
 Più precisamente: ${x_j \in V_1}$ se~$j$ è dispari e ${x_j \in V_2}$ se~$j$ è pari, con
@@ -810,8 +1033,19 @@ ${j = 1,\dots,k}$.\\
 Poiché ${(x_1, x_k) \in E} \text{, } {x_1 \in V_1 \implies x_k \in V_2 \implies k}$ è pari
 e, per come è stato definito il circuito, questo ha lunghezza $k$.\\
 $\Longleftarrow)$ Sia $G$ un grafo con tutti i circuiti di lunghezza pari. Sia $v \in V$,
-lo ''mettiamo'' in $V_1$, tutti i suoi adiacenti allora stanno in $V_2$.
-DA COMPLETARE
+lo ''mettiamo'' in $V_1$, tutti i suoi adiacenti li ''mettiamo'' in $V_2$, poi prendiamo
+tutti i vertici distanti 2 da $v$ e li mettiamo in $V_1$ \dots e così via.
+In generale se esiste un cammino di lunghezza pari che parte da $v$ ed arriva fino ad un certo
+nodo $n$, allora mettiamo $n$ in $V_1$, se invece il cammino ha lunghezza dispari allora
+mettiamo $n$ in $V_2$.
+Non possono esistere spigoli che collegano due nodi che si trovano entrambi in $V_1$ o in $V_2$.
+Supponiamo che $\exists u,w$ tali che entrambi appartengono a $V_1$, che ${\exists (u,w) \in E}$;
+deve esistere un cammino ${c = u - \dots - z - w}$ di lunghezza pari (quindi con ${z \in V_2}$),
+se alla fine del cammino si aggiunge lo spigolo~$(u,w)$ allora si ottiene un circuito formato da
+due cammini, il primo è~$c$ che ha lungheza pari ed il secondo è $(u,v)$ che ha lunghezza dispari.
+Il circuito allora ha lunghezza dispari, ma è assurdo perchè la nostra ipotesi assume che $G$ 
+sia un grafo che ha solo circuiti di lunghezza pari. Un ragionamento analogo lo si può fare se
+$u$ e $w$ appartengono a $V_2$.
 \begin{figure}[!ht]
     \centering
     \begin{tikzpicture}[thick,scale=0.5]
@@ -832,10 +1066,31 @@ DA COMPLETARE
         \path (E) edge node {} (F);
         \path (F) edge node {} (A);
     \end{tikzpicture}
+    \caption{circuito parte $\Longrightarrow)$ della dimostrazione}
+    \label{fig:circuito_dim}
 \end{figure}
 \endproof
 
-ci va l'algoritmo...
+
+\begin{algorithm}
+\caption{Algoritmo per verifica bipartizione di un grafo}\label{alg:algo_bipartizione}
+\begin{algorithmic} 
+\STATE Da ripetere $\forall$ componente connessa di $G(V,E)$:
+\STATE $V_1 = V_2 = \emptyset$
+\STATE prendo un qualsiasi $v \in V$ e lo metto in $V_1$
+\FORALL{$u \in V_1 \cup V_2$}
+    \STATE\COMMENT{La prima volta entro per forza nell'if perché $u$ può essere solo uguale a $v$}
+    \IF{$u \in V_1$}
+        \STATE aggiungo a $V_2$ tutti i vertici adiacenti a $u$ che non sono in $V_1 \cup V_2$
+    \ELSE
+        \STATE aggiungo a $V_1$ tutti i vertici adiacenti a $u$ che non sono in $V_1 \cup V_2$
+    \ENDIF
+\ENDFOR
+\STATE $G$ è bipartito $\iff$ ogni spigolo ha una estremità in $V_1$ ed una in $V_2$
+
+\end{algorithmic}
+\end{algorithm}
+
 
 \section{Grafi isomorfi}
 \begin{defn}[grafi isomorfi]
@@ -843,20 +1098,113 @@ Due grafi $G(V,E)$ e $G'(V',E')$ sono \emph{isomorfi} se esiste una corrisponden
 (\emph{isomorfismo}) tra i vertici di $V$ e quelli di $V'$ tali che: due vertici di $V$ sono
 adiacenti in $G \iff $ i corrispondenti vertici di $V'$ sono adiacenti in $G'$. 
 \end{defn}
-Stabilire se due grafi sono isomorfi è un problema difficile, l'unico modo che si ha per 
-sapere se lo sono è ''cercare l'isomorfismo''.
-Due grafi sono isomorfi se:
+Stabilire se due grafi sono isomorfi è un problema difficile, per 
+sapere se lo sono si può ''cercare l'isomorfismo''.
+Due grafi sono isomorfi se:\marginpar{sono condizioni necessarie ma \emph{non sufficienti}}
 \begin{itemize}
     \item hanno lo stesso numero di vertici
     \item hanno lo stesso numero di spigoli
     \item hanno lo stesso numero di vertici con lo stesso grado
     \item hanno gli stessi sottografi indotti
-    \item i complementari devono essere isomorfi
+    \item i loro complementari devono essere isomorfi
 \end{itemize}
+
+\begin{ese}
+In figura~\ref{fig:isomorfi} sono rappresentati 2 grafi isomorfi
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}[thick,scale=0.5]
+        \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                        inner sep=0pt, minimum size=4pt}]
+            \node (A) at (0,0) [label=90:$a$]{};
+            \node (B) at (-2.5,-2) [label=left:$c$]{};
+            \node (C) at (2.5,-2) [label=right:$b$]{};
+            \node (D) at (4.5,-1) [label=right:$d$]{};
+        \end{scope}
+
+        \path (A) edge node {} (B);
+        \path (B) edge node {} (C);
+        \path (C) edge node {} (A);
+        \path (C) edge node {} (D);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}[thick,scale=0.5]
+        \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                        inner sep=0pt, minimum size=4pt}]
+            \node (A) at (0,0) [label=left:$x$]{};
+            \node (B) at (0,-2) [label=left:$y$]{};
+            \node (C) at (0.5,-1) [label=right:$z$]{};
+            \node (D) at (3,-2) [label=right:$t$]{};
+        \end{scope}
+
+        \path (A) edge node {} (B);
+        \path (B) edge node {} (C);
+        \path (B) edge node {} (D);
+        \path (D) edge node {} (A);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}[thick,scale=0.5]
+        \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                        inner sep=0pt, minimum size=4pt}]
+            \node (A) at (0,0) [label=left:$a$]{};
+            \node (B) at (3,0) [label=right:$x$]{};
+            \node (C) at (0,-1) [label=left:$b$]{};
+            \node (D) at (3,-1) [label=right:$y$]{};
+            \node (E) at (0,-2) [label=left:$c$]{};
+            \node (F) at (3,-2) [label=right:$z$]{};
+            \node (G) at (0,-3) [label=left:$d$]{};
+            \node (H) at (3,-3) [label=right:$t$]{};
+        \end{scope}
+
+        \path (A) edge node {} (B);
+        \path (C) edge node {} (H);
+        \path (E) edge node {} (D);
+        \path (G) edge node {} (F);
+    \end{tikzpicture}
+    \caption{2 grafi isomorfi} \label{fig:isomorfi}
+\end{figure}
+\end{ese}
+
+\begin{ese}
+In figura~\ref{fig:compl_iso} sono rappresentati 2 grafi complementari non isomorfi
+\begin{figure}[!ht]
+    \centering
+    \begin{tikzpicture}[thick,scale=0.5]
+        \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                        inner sep=0pt, minimum size=4pt}]
+            \node (A) at (0,0) {};%[label=left:$a$]{};
+            \node (B) at (0,-2) {};%[label=left:$b$]{};
+            \node (C) at (4,0) {};%[label=right:$c$]{};
+            \node (D) at (4,-2) {};%[label=right:$d$]{};
+        \end{scope}
+
+        \path (A) edge node {} (B);
+        \path (A) edge node {} (C);
+        \path (A) edge node {} (D);
+    \end{tikzpicture}
+    \hspace{1cm}
+    \begin{tikzpicture}[thick,scale=0.5]
+        \begin{scope}[every node/.style={circle,thick,draw,fill=black,
+                        inner sep=0pt, minimum size=4pt}]
+            \node (A) at (0,0) {};%[label=left:$a$]{};
+            \node (B) at (0,-2) {};%[label=left:$b$]{};
+            \node (C) at (4,0) {};%[label=right:$c$]{};
+            \node (D) at (4,-2) {};%[label=right:$d$]{};
+        \end{scope}
+
+        \path (B) edge node {} (C);
+        \path (B) edge node {} (D);
+        \path (C) edge node {} (D);
+    \end{tikzpicture}
+    \caption{2 grafi complementari non isomorfi} \label{fig:compl_iso}
+\end{figure}
+\end{ese}
+
+%\end{comment}
 
 \end{document}
 
 
 
 \marginpar{⟨nota a margine⟩}
-\footnote{⟨nota a piè di pagina⟩}
+\footnote{⟨nota a piè di pagina⟩}
