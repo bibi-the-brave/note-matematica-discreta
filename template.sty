@@ -1,0 +1,73 @@
+\ProvidesPackage{template}
+
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{concrete}
+\usepackage{beton}
+%\usepackage{concmath}
+%\usepackage{ccfonts}
+\renewcommand{\bfdefault}{sbc} 
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{euler}		%font 'ams euler', lo stesso di 'Concrete Mathematics' di Knuth
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{float}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{graphs}
+\usetikzlibrary{arrows}
+
+\usepackage{caption}        %per includere figure fluttuanti
+\usepackage{subcaption}     %sottofigure numerabili
+
+\usepackage{tabularx}
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+%\usepackage{marginfix}      %per risolvere problemi con i margini che vanno a donne di facili costumi
+%\pdfsavepos
+
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
+
+\theoremstyle{plain} 
+\newtheorem{thm}{Teorema}[section] 
+\newtheorem{cor}[thm]{Corollario} 
+\newtheorem{lem}[thm]{Lemma} 
+\newtheorem{prop}[thm]{Proposizione} 
+
+\theoremstyle{definition} 
+\newtheorem{defn}{Definizione}[chapter]
+%\theoremstyle{remarks} 
+\newtheorem{ese}{Esempio}[section]
+\newtheorem{oss}{Osservazione}[section]
+\newtheorem{eser}{Esercizio}[section]
+
+\pagestyle{headings}
+
+\usepackage{breakurl}
+
+\usepackage[colorlinks=true]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black, % colore dei link interni
+    urlcolor=Maroon  % colore dei link interniesterni
+}
+
+\newcommand{\comment}[1]{}
+
+%\newcommand*{\QEDA}{\hfill\ensuremath{\blacksquare}}%
+%\newcommand*{\QEDB}{\hfill\ensuremath{\square}}%
+
+\renewcommand{\algorithmicforall}{\textbf{for each}}
