@@ -18,7 +18,7 @@ In Figura~\ref{fig:grf_semplice} è rappresentato il seguente grafo non orientat
 \[E = \{ (v_1,v_3), (v_1,v_7), (v_2,v_3), (v_4,v_7),(v_6,v_5), (v_4,v_2), (v_3,v_5), (v_5,v_7) \}\]
 Si dice che lo spigolo $(v_1,v_3)$ ha come \emph{estremi} i vertici $v_1$ e $v_3$.
 \end{ese}
-\begin{figure}[!ht]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
         \node[shape=circle,draw=black] (A) at (0,6) {$v_1$};
@@ -45,7 +45,7 @@ Si dice che lo spigolo $(v_1,v_3)$ ha come \emph{estremi} i vertici $v_1$ e $v_3
 \end{figure}
 
 \begin{ese}
-    \begin{figure}[!ht]
+    \begin{figure}[H]
         \centering
         \begin{tikzpicture}[every loop/.style={}]
             \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
@@ -74,7 +74,7 @@ Un \emph{cammino} è una sequenza di vertici \emph{distinti} in cui ogni coppia 
 Nel grafo in Figura~\ref{fig:camm_semplice} è presente il cammino 
 ${v_4 \text{ - } v_7 \text{ - } v_5 \text{ - } v_3 \text{ - } v_2 }$. Un'altra notazione
 per indicare il cammino è: ${(v_4, v_7, v_5, v_3, v_2)}$.
-    \begin{figure}[!ht]
+    \begin{figure}[H]
         \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black] (A) at (0,6) {$v_1$};
@@ -108,7 +108,7 @@ Cammino nel quale il primo e l'ultimo vertice sono adiacenti.
 \begin{ese}
 Il grafo in Figura~\ref{fig:circ_semplice} ha il circuito:
 $v_4 \text{ - } v_7 \text{ - } v_5 \text{ - } v_3 \text{ - } v_2 \text{ - } v_4$.
-    \begin{figure}[!ht]
+    \begin{figure}[H]
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black]  (A) at (0,6) {$v_1$};
@@ -159,7 +159,7 @@ Se il grafo completo ha $n$ vertici allora è detto grafo~$k_n$.
             \item un grafo $k_5$
         \end{itemize}
     }
-    \begin{figure}[!ht]
+    \begin{figure}[H]
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
@@ -215,7 +215,7 @@ e ogni suo spigolo è incidente in un vertice di $U$ ed uno di $V$.
 
 \begin{ese}
 Due grafi bipartiti sono rappresentati in Figura~\ref{fig:bipartiti}.
-    \begin{figure}[!ht]
+    \begin{figure}[H]
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black] (A) at (0,3) {$u_1$};
@@ -264,7 +264,7 @@ $A$ è un insieme di \emph{coppie ordinate} di vertici dette \emph{archi}.
 \begin{ese}
 \[G(V,A) \text{ con } V = \{ v_1, v_2, v_3, v_4, v_5 \} \text{ e} \]
 \[A = \{ (v_1, v_3), (v_2, v_1), (v_2, v_5), (v_3, v_5), (v_4, v_1), (v_4, v_3), (v_5, v_2) \} \]
-    \begin{figure}[!ht]
+    \begin{figure}[H]
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
@@ -292,7 +292,7 @@ il grafo ha un \emph{nodo iniziale} (\emph{testa}) ed un \emph{nodo finale} (\em
 \[ G(V, A) \quad V = \{v_1, v_2\}, \quad A = \{ (v_1, v_2), (v_2, v_1) \}\]
 $G$ è un grafo orientato. L'arco $(v_1, v_2) \in A$ ha $v_1$ come nodo iniziale
 e $v_2$ come finale.
-    \begin{figure}[!ht]
+    \begin{figure}[H]
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black] (A) at (0, 0) {$v_1$};
@@ -311,7 +311,7 @@ L'immagine in Figura~\ref{fig:no_orientato_semplice} non rappresenta un grafo or
 perchè i vertici $v_1$ e $v_2$ sono collegati da due archi paralleli 
 (ovvero due archi che hanno lo stesso nodo iniziale ed anche quello finale), 
 inoltre c'è un cappio su $v_1$.
-    \begin{figure}[!ht] 
+    \begin{figure}[H] 
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black] (A) at (0, 0) {$v_1$};
@@ -334,7 +334,7 @@ consecutivi nel cammino è collegata da un arco.
 \begin{ese}
 Nel grafo in Figura~\ref{fig:cammino_orientato} è presente il cammino orientato: 
 \[v_1 - v_3 - v_5 - v_2\]
-    \begin{figure}[!ht]
+    \begin{figure}[H]
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=orange] (A) at (0,0) {$v_1$};
@@ -361,7 +361,7 @@ Cammino orientato nel quale esiste un arco dal primo all'ultimo nodo.
 
 \begin{ese}
 In Figura~\ref{fig:c_or} è rappresentato il circuito orientato \[v_1 - v_3 - v_5 - v_2 - v_1\]
-    \begin{figure}[!ht]
+    \begin{figure}[H]
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=orange] (A) at (0,0) {$v_1$};
@@ -417,7 +417,7 @@ Non è difficile notare che il minimo numero di spigoli che un grafo può avere 
 ($|V|$ indica la \emph{cardinalità} di $V$. La cardinalità di un insieme finito è un numero naturale che rappresenta la quantità di elementi che costituiscono l'insieme.)
 \begin{ese} In Figura~\ref{fig:card} sono rappresentati dei grafi che hanno il massimo
 numero di spigoli che è possibile avere rispetto al numero dei loro vertici $|V| = 3$ e $|V| = 4$.
-\begin{figure}[!ht]		
+\begin{figure}[H]		
     \centering
         \begin{tikzpicture}
             \node[shape=circle,draw=black] (A) at (0,0) {$v_1$};
@@ -443,7 +443,7 @@ numero di spigoli che è possibile avere rispetto al numero dei loro vertici $|V
             \path (B) edge node {} (D);
 
         \end{tikzpicture}
-        \caption{due grafi rispettivamente con $V = 3$ ed $V = 4$} \label{fig:card}
+        \caption{due grafi rispettivamente con $|V| = 3$ e $|V| = 4$} \label{fig:card}
     \end{figure}
 \end{ese}
 
@@ -456,7 +456,7 @@ numero di spigoli incidenti in $v$.
 	\[\sum_{v \in V}^{} gr(v) = 1 + 3 + 2 + 2 + 2 = 10 = 2 |E| = 2 \times 5\]
     Il grafo relativo all'esempio è in~\ref{fig:esempio_grado}
 
-	\begin{figure}[!ht]
+	\begin{figure}[H]
 	  	 \centering
 	        \begin{tikzpicture}
 		        \node[shape=circle,draw=black] (A) at (0,0) {$v_4$};
@@ -592,7 +592,7 @@ di archi uscenti dal vertice v.
 \begin{ese}
     La Figura~\ref{fig:in_out} rappresenta un grafo con 
     ${In\text{-}deg(v_1) = 1}$ e ${Out\text{-}deg(v_1) = 3}$
-    \begin{figure}[!ht]
+    \begin{figure}[H]
         \centering
             \begin{tikzpicture} 
                 \node[shape=circle,draw=red] (A) at (0,0) {$v_1$};
@@ -665,9 +665,9 @@ ${u,v \in V' \implies (u,v) \in E'}$.
 
 \begin{ese}
 In Figura~\ref{fig:sottografi} sono rappresentati un grafo ${G(V,E)}$, un suo sottografo
-${G'(V' = \{a,d,f,e\}, E'= \{ (a,d), (a,f) \})}$ ed un suo sottografo indotto (da $V'$)\\
+${G'(V' = \{a,d,f,e\}, E'= \{ (a,d), (a,f) \})}$ ed un suo sottografo indotto (da~$V'$)
 ${G''(V', E''= \{ (a,d), (a,f), (d,f), (f,e) \})}$.
-\begin{figure}[!ht]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[thick,scale=0.5]
         \begin{scope}[every node/.style={circle,thick,draw,fill=black,
@@ -741,7 +741,7 @@ connessi massimali.
 
 \begin{ese} In Figura~\ref{fig:connesso_sconnesso} sono rappresentati un grafo connesso
     ed un grafo sconnesso con 3 componenti connesse.
-    \begin{figure}[!ht]
+    \begin{figure}[H]
         \centering
         \begin{subfigure}[grafo connesso]{{0.31\textwidth}}
             \begin{tikzpicture}[thick,scale=0.5]
@@ -791,7 +791,7 @@ connessi massimali.
 
 \begin{ese} In Figura~\ref{fig:com_conn_grafo} sono rappresentati un grafo e le sue componenti
     connesse (ovvero i suoi sottografi connessi massimali).
-    \begin{figure}[!ht]
+    \begin{figure}[H]
         \centering
         \begin{subfigure}{{0.31\textwidth}}
             \begin{tikzpicture}[thick,scale=0.5]
@@ -850,7 +850,7 @@ Si dice che $\delta(S)$ separa $u$ e $v$ se ${|S \cap \{u,v\}| = 1}$.
 \begin{ese}
 esempio: ${V=\{a,b,c,d,e\}}$ sono i nodi del grafo in Figura~\ref{fig:es_taglio} che, ha come
 taglio associato ad ${S = \{a, b\}}$ l'insieme ${\delta(S)= \{(a,d),(a,c),(b,c),(b,e)\}}$.
-    \begin{figure}
+    \begin{figure}[H]
         \centering
             \begin{tikzpicture}[thick,scale=0.5]
                 \begin{scope}[every node/.style={circle,thick,draw,fill=black,
@@ -917,10 +917,23 @@ ${ |P \cap \delta(S)| \geqslant 1 }$ quindi ${\delta(S) \neq \emptyset}$.
     \STATE aggiungo a $C$ tutti i vertici adiacenti a $u$ che non sono già in $C$
 \ENDFOR
 \STATE \COMMENT{ora $C$ è la componente connessa che contieve $v$, se contiene 
-                anche $u$ allora $\exists$~un cammino tra $u$ e~$v$}
+             anche $u$ allora $\exists$~un cammino tra $u$ e~$v$}
 
 \end{algorithmic}
 \end{algorithm}
+
+\begin{codebox}
+\Procname{$\proc{Cammino-Minimo}(G, v)$}
+\li \Comment{${G(V,E)}$ è un grafo e ${v \in V}$ è un suo vertice}
+\li \Comment{l'lgoritmo determina se $\exists$ un cammino tra i vertici $u$~e~$v$ }
+\li \id{C} $\gets \emptyset$
+\li \id{C} $\leftarrow v$ \Comment{prendo $v$ e lo metto nell'insieme $C$ }
+\li \Comment{Adesso si esaminano tutti i nodi nella componente connessa}
+\li \li \li
+\Do
+\li
+\li
+\end{codebox}
 
 \begin{defn}[connettività sugli spigoli]
 Sia ${G(V,E)}$ un grafo connesso. Si dice connettività
@@ -972,7 +985,7 @@ due cammini, il primo è~$c$ che ha lungheza pari ed il secondo è $(u,v)$ che h
 Il circuito allora ha lunghezza dispari, ma è assurdo perchè la nostra ipotesi assume che $G$ 
 sia un grafo che ha solo circuiti di lunghezza pari. Un ragionamento analogo lo si può fare se
 $u$ e $w$ appartengono a $V_2$.
-\begin{figure}[!ht]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[thick,scale=0.5]
         \begin{scope}[every node/.style={circle,thick,draw,fill=black,
@@ -1037,7 +1050,7 @@ Due grafi sono isomorfi se:\marginpar{sono condizioni necessarie ma \emph{non su
 
 \begin{ese}
 In Figura~\ref{fig:isomorfi} sono rappresentati 2 grafi isomorfi
-\begin{figure}[!ht]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[thick,scale=0.5]
         \begin{scope}[every node/.style={circle,thick,draw,fill=black,
@@ -1093,7 +1106,7 @@ In Figura~\ref{fig:isomorfi} sono rappresentati 2 grafi isomorfi
 
 \begin{ese}
 In Figura~\ref{fig:compl_iso} sono rappresentati 2 grafi complementari non isomorfi
-\begin{figure}[!ht]
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}[thick,scale=0.5]
         \begin{scope}[every node/.style={circle,thick,draw,fill=black,
