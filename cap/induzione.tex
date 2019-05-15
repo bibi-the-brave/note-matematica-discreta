@@ -1,0 +1,78 @@
+\chapter{Principio di Induzione}
+%Le prove per induzione matematica sono composte da due parti: la prima è il \emph{caso base},
+%la seconda è il \emph{passo induttivo}.
+%Il \textbf{caso base} dimostra che una proposizione è valida per il primo numero
+
+%\begin{defn}[Principio di Induzione (versione 1)]
+%Sia $P(n)$ una proprietà definita per i numeri natuali n, sia $a$ un intero fissato.
+%Supponendo che le seguenti due affermazioni siano vere:
+%\begin{enumerate}
+%	\item $P(a)$ è vero
+%	\item $\forall k \in \mathbb{N}$ tale che $k \geqslant a$, se $P(k)$ è vero allora
+%	$P(k+1)$ è vero.
+%\end{enumerate}
+%allora se $ P(n)$ è vera $\forall n \geqslant a$ .
+%\end{defn}
+
+Per prima cosa viene fornita la definizione di \emph{induzione ordinaria}:
+\begin{defn}[Induzione ordinaria]
+	Sia $P$ un predicato definito sui numeri naturali. Se
+	\begin{enumerate}
+		\item $P(i)$ è vero per un $i \in \mathbb{N}$
+		\item $ P(n) \Rightarrow P(n+1) $  $\forall n \in \mathbb{N} \text{ t.c. }  n \geq i$
+	\end{enumerate}
+	allora $P(m)$ è vera $\forall m \in \mathbb{N} \text{ t.c. }  m \geq i$ .\\
+	La prima condizione è chiamata \emph{caso base}, la seconda \emph{passo induttivo}.
+\end{defn}
+
+\begin{ese}
+	Provare per induzione che $\forall n \in \mathbb{N}$
+	\begin{equation}
+		\label{eq:es1}
+		1 + 2 + 3 + \dots + n = \frac{n(n+1)}{2}
+	\end{equation}
+	
+	Definiamo la proposizione $P(n)$ ponendola uguale all'equazione~\eqref{eq:es1} e verifichiamo che sia valida per tutti gli $n \in \mathbb{N}$.
+	Si nota facilmente che $P(0)$ è vera perché $0 = \frac{0}{2}$.
+	
+	Ora dobbiamo provare che \item $ P(n) \Rightarrow P(n+1) $  $\forall n \in \mathbb{N}$. Per provare la validità di una implicazione bisogna assumere che la prima proposizione (quella a sinistra del simbolo $\Rightarrow$) sia vera e dimostrare la validità della seconda. Assumiamo quindi che $P(n)$ sia vera e dimostriamo che lo è anche $P(n+1)$.
+	$P(n+1)$ corrisponde a:
+	\begin{equation}
+		\label{eq:es1_2}
+		1 + 2 + 3 + \dots + n + n+1 = \frac{(n+1)(n+2)}{2}
+	\end{equation}
+	
+	Se si prende l'equazione~\eqref{eq:es1} e le si somma ad entrambi i membri il valore $n+1$, dopo un paio di semplificazioni al secondo membro si ottierrà
+	l'equazione~\eqref{eq:es1_2}. Questa argomentazione è valida per ciascuon $n \in \mathbb{N}$ e quindi il principio di induzione ci dice che $P(m)$ è vero
+	$\forall m \in \mathbb{N}$.
+	
+	\begin{equation*}
+		\begin{split}
+			1 + 2 + 3 + \dots + n + (n + 1)  &= \frac{n(n+1)}{2} + (n+1) \\
+														& = \frac{(n+1)(n+2)}{2}
+		\end{split}
+	\end{equation*}
+	\QEDA
+\end{ese}
+
+Scrivere dimostrazioni per induzione non è una cosa semplice, può capitare di cadere vittima di alcuni tranelli. 
+\begin{ese}
+	Proviamo ad usare l'induzione per
+	dimostrare che ''tutti i cavalli sono dello stesso colore''.\\
+	Riformuliamo l'affermazione in modo da rendere esplicito $n$.
+	
+	"In ogni insieme di $n \geq 1$ cavalli, tutti i cavalli hanno lo stesso colore". Dimostrare il caso base ($n = 1$) è semplice: in un insieme con un solo
+	cavallo è presente un solo cavallo che quindi ha lo stesso colore di se stesso. Per questo motivo $P(1)$ è vera.
+	
+	Nel passo induttivo assumiamo che $P(n)$ sia vera $\forall n \geq 1$, ovvero che in qualsiasi insieme di $n$ cavalli ciascuno di essi abbia lo stesso colore degli altri.
+	
+	Supponiamo ora di avere un insieme di $n+1$ cavalli: $\{c_1, c_2, \dots, c_n, c_{n+1}\}$. Dobbiamo provare che questi cavalli sono tutti dello stesso colore: per la 
+	nostra assunzione i primi n cavalli $n_1, \dots, n_n$ sono tutti dello stesso colore ma, sempre
+	per la nostra assunzione, sono dello stesso colore anche i cavalli che appartengono all'insieme 
+	$\{c_2, \dots, c_n, c_{n+1}\}$. \dots
+	\QEDA
+\end{ese}
+
+\begin{defn}[Induzione forte]
+	\dots
+\end{defn}

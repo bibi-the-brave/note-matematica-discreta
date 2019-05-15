@@ -7,3 +7,5 @@
 *.Rhistory
 *.bak
 *.lof
+*.lot
+*.DS_Store
