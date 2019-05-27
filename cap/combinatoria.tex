@@ -1,0 +1,145 @@
+\chapter{Combinatoria}
+\section{Principi di addizione e moltiplicazione}
+
+\begin{defn}[Principio di addizione]
+	Si vuole scegliere un oggetto tra gli elementi di $m$ insiemi \emph{disgiunti}.
+	Il primo insieme contiene $r_1$ oggetti, il secondo contiene $r_2$ oggetti, \dots, 
+	l'n-esimo contiene $r_m$ oggetti. Il numero di possibili scelte di un oggetto da 
+	uno degli $m$ insiemi disgiunti è $r_1 + r_2 + \dots + r_m$.
+\end{defn}
+
+\begin{ese}
+	In una scuola vengono offerti due corsi opzionali, uno di scacchi e uno di violino.
+	Il corso di violino viene frequentato da 40 studenti, quello di scacchi 30.
+	Quanti studenti hanno scelto corsi  opzionali?
+	
+	\emph{Soluzione}:
+	Per poter utilizzare il principio di addizione è necessario che gli insiemi siano
+	disgiunti ed in questo caso, non si sa se lo sono oppure no perché, alcuni studenti
+	potrebbero frequentare sia il corso di scacchi che quello di violino. 
+	Per ottenere degli insiemi disgiunti è necessario dividere gli studenti in tre gruppi:
+	quelli che frequentano solo il corso di violino, quelli che frequentano solo il corso
+	di scacchi e quelli che li frequentano entrambi. Dai dati del problema non è chiaro 
+	quanti siano i $k$ studenti che frequentano entrambi i corsi. La cardinalità dei nuovi
+	insiemi ottenuti è la seguente:	
+	\begin{align*}
+		40 - k &= \text{\# studenti che frequentano solamente il corso di violino}\\
+		30 - k &= \text{\# studenti che frequentano solamente il corso di scacchi}\\
+		k &= \text{\# studenti che frequentano entrambi i corsi}
+	\end{align*}
+	Per il principio di addizione ci sono quindi $(40 - k) + (30 - k) + k$ studenti che
+	hanno scelto di frequentare i corsi opzionali.
+	\QEDA
+\end{ese}
+
+\begin{defn}[Principio di moltiplicazione]
+	Si supponga che un esperimento (un processo/procedura) possa essere suddiviso in
+	$m$ ordinate fasi successive con $r_1$ differenti esiti per la prima fase,
+	$r_2$ differenti esiti per la seconda fase,\dots, $r_m$ differenti esiti per
+	l'm-esima fase. Se il numero di esiti di ciascuna fase è \emph{indipendente} dalle
+	scelte fatte durante le fasi precedenti e se \emph{le m-uple dei risultati finali 
+	sono tutte differenti tra di loro}, allora in totale, l'esperimento ha 
+	$r_1 \cdot r_2 \cdot \ldots \cdot r_m$ differenti esiti.
+\end{defn}
+
+\begin{defn}[(Alternativa) principio di moltiplicazione]
+	Si effettuano $m$ scelte in modo sequenziale. Se:
+	\begin{enumerate}
+		\item la prima scelta è tra $r_1$ possibili elementi, la seconda tra $r_2$
+		possibili elementi, numero che non dipende dal risultato della prima scelta,
+		\dots, la m-esima tra $r_m$ possibili elementi, numero che non dipende dal
+		risultato delle $m-1$ scelte precedenti. 
+		
+		\item m-uple di scelte distinte producono risultati distinti.
+	\end{enumerate}
+	allora il numero di scelte distinte è $r_1 \cdot r_2 \cdot \ldots \cdot r_m$.
+\end{defn}
+
+\begin{ese}
+	Si lanciano due dadi, uno verde ed uno rosso poi si osserva l'esito dell'esperimento.
+	\begin{enumerate}
+		\item Quanti differenti esiti possono esserci?
+		\item Quanti possono essere i differenti esiti relativi all'uscita di due facce diverse?
+	\end{enumerate}
+	\emph{Soluzione}:
+	\begin{enumerate}
+		\item Ogni dado ha sei facce distinte. La prima parte dell'esperimento consiste nel lanciare
+		un dado, la seconda nel lanciare l'altro. Per il principio di moltiplicazione vi sono quindi
+		$6 \cdot6 = 36$ possibili esiti per questo esperimento.
+		\item Si utilizza ancora il principio di moltiplicazione: nella prima fase della procedura
+		viene lanciato un dado in cui possono comparire tutte le 6 facce. La seconda fase della
+		procedura, indipendentemente dal particolare valore del primo dado può avere come valori
+		solamente cinque facce.% che non sono già uscite\dots
+		Per questo motivo ci sono $6 \cdot 5 = 30$ esiti. Si noti che per poter applicare il
+		principio di moltiplicazione il vincolo ''due facce diverse'' deve essere trasformato
+		in ''il valore del primo dado lanciato deve essere differente da quello del secondo''.
+		(Una soluzione alternativa che non applica il principio è la seguente: poiché un dado ha sei 
+		facce distinte, ci sono solamente sei casi in cui possono uscire
+		due dadi con la stessa faccia. Per questo motivo numero di esiti in cui i due dadi hanno facce
+		distinte sono $36 - 6 = 30$). \QEDA
+	\end{enumerate}
+\end{ese}
+
+Quando si cerca di risolvere un problema di combinatoria solitamente si cerca di suddividerlo
+in un moderato numero sottoproblemi di più facile risoluzione. Potrebbero esserci modi più
+intelligenti per risolverlo ma, se si riesce a ridurlo ad un insieme di sottoproblemi di cui
+si ha più familiarità, allora è meno probabile compiere degli errori. 
+\begin{ese}
+	In uno scaffale di una biblioteca ci sono 11 libri in inglese (distinti), 7 in francese (distinti)
+	e 4 in russo (distinti). In quanti modi si possono scegliere una coppia (non ordinata) di libri
+	che non siano della stessa lingua?
+	
+	\emph{Soluzione}:
+	Per il principio di moltiplicazione le coppie non ordinate di libri di inglese e francese
+	ottenibili sono $11 \cdot 7 = 77$, quelle di inglese e russo sono $11 \cdot 4 = 44$, quelle
+	di francese e russo sono $7 \cdot 4 = 28$.
+	Questi tre principi di scelte sono tra loro disgiunti e quindi per il principio di addizione 
+	ci sono $77 + 44 + 28 = 149$ diversi modi di scegliere.
+	\QEDA
+\end{ese}
+
+\begin{ese}
+	Si hanno disposizione le lettere \emph{a, b, c, d, e, f}, per formare sequenze di lunghezza 3.
+	Quante se ne possono formare con le seguenti regole?
+	\begin{enumerate}
+		\item \textbf{Le ripetizioni sono ammesse}
+		\item \textbf{Le ripetizioni non sono ammesse}
+		\item \textbf{Le ripetizioni non sono ammesse ed è presente la lettera \emph{e}}
+		\item \textbf{Le ripetizioni sono ammesse ed è presente la lettera \emph{e}}
+	\end{enumerate}
+	\emph{Soluzione}:
+	\begin{enumerate}
+		\item Con le ripetizioni ci sono $6$ scelte per ciascun carattere della sequenza. 
+		Per il principio della moltiplicazione ci sono $6 \cdot 6 \cdot  6 = 216$ sequenze di
+		tre lettere con ripetizione.
+		\item Senza ripetizioni ci sono $6$ scelte per la prima lettera, $5$ per le rimanenti
+		per la seconda, $4$ per la terza. Per il principio di moltiplicazione ci sono 
+		$6 \cdot 5 \cdot 4 = 120$ sequenze di tre lettere senza ripetizione.
+		\item Se la sequenza deve contenere la lettera \emph{e}, allora ci sono 3 scelte relative
+		alla posizione di \emph{e} nella sequenza:
+		\begin{center}
+			\centering
+			\underline{e} \underline{ } \underline{ }
+			\quad
+			\underline{ } \underline{e} \underline{ }
+			\quad
+			\underline{ } \underline{ } \underline{e}
+		\end{center}
+		Come si può vedere, in ciascun diagramma rimangono $5$ scelte per la prima posizione non
+		occupata dalla lettera \emph{e}, poi ne rimangono $4$ per la seconda posizione non occupata.
+		Per il principio di addizione e per quello della moltiplicazione si hanno in totale 
+		$ 5 \cdot 4 +  5 \cdot 4 +  5 \cdot 4 = 60$ scelte.
+		\item \dots
+		\begin{center}
+			\centering
+			\underline{e} \underline{ } \underline{ }
+			\quad
+			\underline{\bcancel{e}} \underline{e} \underline{ }
+			\quad
+			\underline{\bcancel{e}} \underline{\bcancel{e}} \underline{e}
+		\end{center}
+	\end{enumerate}
+	\dots
+	\QEDA
+\end{ese}
+\section{Permutazioni e disposizioni semplici}
