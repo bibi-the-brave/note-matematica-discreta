@@ -129,17 +129,47 @@ si ha più familiarità, allora è meno probabile compiere degli errori.
 		occupata dalla lettera \emph{e}, poi ne rimangono $4$ per la seconda posizione non occupata.
 		Per il principio di addizione e per quello della moltiplicazione si hanno in totale 
 		$ 5 \cdot 4 +  5 \cdot 4 +  5 \cdot 4 = 60$ scelte.
-		\item \dots
-		\begin{center}
-			\centering
-			\underline{e} \underline{ } \underline{ }
-			\quad
-			\underline{\bcancel{e}} \underline{e} \underline{ }
-			\quad
-			\underline{\bcancel{e}} \underline{\bcancel{e}} \underline{e}
-		\end{center}
+		\item Provando ad utilizzare l'approccio usato per la regola precedente, ci sarebbero $36$
+		esiti per ciascuna delle possibili 3 scelte, per un totale di $108$ esiti.
+		Tale risposta però non è corretta perché il principio di moltiplicazione è stato violato, dato
+		che gli esiti non sono tutti distinti. Infatti, ad esempio, la sequenza
+		\underline{e} \underline{c} \underline{e} verrebbe generata due volte: una quando 
+		la lettera \emph{e} viene messa in prima posizione seguita da \emph{c} ed \emph{e} in
+		una delle 36 scelte per le ultime due posizioni, l'altra quando la \emph{e} viene messa
+		in ultima posizione ed è preceduta da \emph{c} ed \emph{e} in una delle scelte per le
+		prime due posizioni.
+		
+		Bisogna suddividere il problema in parti che assicurino esiti distinti, si può fare
+		decomponendolo in casi disgiunti basati sul dove compare la prima occorrenza della
+		lettera \emph{e} nella sequenza.
+		\begin{enumerate}
+			\item \underline{e} \underline{ } \underline{ } \quad{ } per il principio di moltiplicazione
+			ci sono $6 \cdot 6 = 32$ scelte.
+			\item \underline{\bcancel{e}} \underline{e} \underline{ } \quad{ } per il principio di
+			moltiplicazione ci sono $5 \cdot 6 = 30$ scelte. 
+			\item \underline{\bcancel{e}} \underline{\bcancel{e}} \underline{e} \quad{} per il principio
+			di moltiplicazione ci sono $5 \cdot 5 = 25$ scelte.
+		\end{enumerate}
+		Ora che si sono ottenuti casi disgiunti, applicando il principio di addizione si ha che
+		gli esiti totali sono $32 + 30 + 25 = 91$.\QEDA
 	\end{enumerate}
-	\dots
-	\QEDA
 \end{ese}
+
 \section{Permutazioni e disposizioni semplici}
+\begin{defn}[Permutazione]
+	Una permutazione o \emph{disposizione semplice} di $n \in \mathbb{N}$ oggetti distinti,
+	è una disposizione (o ordinamento) degli $n$ oggetti corrispondente ad una ennupla ordinata.
+	\begin{center}
+		\centering
+		\#{}permutazioni = $P(n,n) \eqdef n \cdot (n - 1) \cdot \ldots \cdot 1 = n!$ con $0! \eqdef 1$
+	\end{center}
+\end{defn}
+
+\begin{defn}[r-permutazione]
+	Dati $r, n \in \mathbb{N}$ con $r \leq n$, una r-permutazione %di $n$ oggetti distinti,
+	%è una disposizione (o ordinamento) degli $n$ oggetti corrispondente ad una ennupla ordinata.
+	%\begin{center}
+	%	\centering
+	%	\#{}permutazioni = $P(n,n) \eqdef n \cdot (n - 1) \cdot \ldots \cdot 1 = n!$ con $0! \eqdef 1$
+	%\end{center}
+\end{defn}
